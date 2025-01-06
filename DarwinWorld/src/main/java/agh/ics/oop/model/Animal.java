@@ -31,23 +31,8 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    public void move(MoveDirection direction, WorldMap map) {
-        switch (direction) {
-            case LEFT: this.direction = this.direction.previous(); break;
-            case RIGHT: this.direction = this.direction.next(); break;
-            case FORWARD: {
-                Vector2d tmp = this.position.add(this.direction.toUnitVector());
-                if (map.canMoveTo(tmp)) {
-                    this.position = tmp;
-                }
-            } break;
-            case BACKWARD: {
-                Vector2d tmp = this.position.subtract(this.direction.toUnitVector());
-                if (map.canMoveTo(tmp)) {
-                    this.position = tmp;
-                }
-            } break;
-        }
+    public void move(Vector2d position) {
+        this.position = position;
     }
 
 

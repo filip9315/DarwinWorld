@@ -1,0 +1,63 @@
+package agh.ics.oop.model;
+
+
+import java.util.*;
+
+public class WaterMap extends AbstractWorldMap {
+
+    List<Lake> lakes = new ArrayList<>();
+    Map<Vector2d, Tile> waters = new HashMap<>();
+    int numberOfLakes;
+
+    public WaterMap(int width, int height, int numberOfLakes) {
+        this.width = width;
+        this.height = height;
+
+        this.numberOfLakes = numberOfLakes;
+        for (int i = 0; i < numberOfLakes; i++) {
+            Vector2d center;
+            if (Math.random() < 0.5) {
+                center = new Vector2d((int) (Math.random()*width), (int) (Math.random()*((double) height /5)));
+            } else{
+                center = new Vector2d((int) (Math.random()*width), (height*4/5) + (int) (Math.random()*(height)/5));
+            }
+            int radius = (int) (Math.random()*5);
+            Lake lake = new Lake(center, radius, this);
+            lakes.add(lake);
+            waters.putAll(lake.getWaters());
+        }
+        createJungle();
+    }
+
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        if (animals.get(position) != null) {
+            return animals.get(position);
+        }
+        if (grasses.get(position) != null) {
+            return grasses.get(position);
+        }
+        if(jungles.get(position) != null) {
+            return jungles.get(position);
+        }
+        if(waters.get(position) != null) {
+            return waters.get(position);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return position.follows(getCurrentBounds().lowerLeft()) && position.precedes(getCurrentBounds().upperRight());
+
+    }
+
+    public void changeSizeOfLakes(int flow){
+        waters.clear();
+        for (Lake lake : lakes) {
+            Lake newLake = new Lake(lake.getCenter(), lake.getRadius()+flow, this);
+            lakes.set(lakes.indexOf(lake), newLake);
+            waters.putAll(newLake.getWaters());
+        }
+    }
+}

@@ -7,12 +7,18 @@ import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
+    int width;
+    int height;
+
     Map<Vector2d, Animal> animals = new HashMap<>();
+    Map<Vector2d, Grass> grasses = new HashMap<>();
+
+    Map<Vector2d, Tile> jungles = new HashMap<>();
+
     List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
     UUID id;
 
-    abstract public WorldElement objectAt(Vector2d position);
     abstract public boolean canMoveTo(Vector2d position);
 
     public boolean isOccupied(Vector2d position) {
@@ -30,8 +36,29 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void move(Animal animal, MoveDirection direction) {
+
+        Vector2d position = animal.getPosition();
+
+        switch (direction) {
+            case LEFT: animal.direction = animal.direction.previous(); break;
+            case RIGHT: animal.direction = animal.direction.next(); break;
+            case FORWARD: {
+                Vector2d tmp = animal.getPosition().add(animal.direction.toUnitVector());
+                if (this.canMoveTo(tmp)) {
+                    position = tmp;
+                }
+            } break;
+            case BACKWARD: {
+                Vector2d tmp = animal.getPosition().subtract(animal.direction.toUnitVector());
+                if (this.canMoveTo(tmp)) {
+                    position = tmp;
+                }
+            } break;
+        };
+
+
         animals.remove(animal.getPosition());
-        animal.move(direction, this);
+        animal.move(position);
         animals.put(animal.getPosition(), animal);
         mapChanged("Animal moved to " + animal.getPosition());
     }
@@ -45,7 +72,9 @@ public abstract class AbstractWorldMap implements WorldMap {
         return mapVisualizer.draw(getCurrentBounds().lowerLeft(), getCurrentBounds().upperRight());
     }
 
-    public abstract Boundary getCurrentBounds();
+    public Boundary getCurrentBounds(){
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width, height));
+    }
 
     public List<Animal> getAnimals() {
         return animalList;
@@ -55,6 +84,19 @@ public abstract class AbstractWorldMap implements WorldMap {
         for (MapChangeListener mapChangeListener : mapChangeListeners){
             mapChangeListener.mapChanged(this, message);
         }
+    }
+
+    public WorldElement objectAt(Vector2d position) {
+        if (animals.get(position) != null) {
+            return animals.get(position);
+        }
+        if (grasses.get(position) != null) {
+            return grasses.get(position);
+        }
+        if(jungles.get(position) != null) {
+            return jungles.get(position);
+        }
+        return null;
     }
 
     public void registerMapChangeListener(MapChangeListener mapChangeListener){
@@ -67,5 +109,23 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public UUID getId() {
         return id;
+    }
+
+    void createJungle(){
+        int center = height / 2;
+        int jungleHeight = height / 5;
+
+        for (int i = 0; i <= width; i++) {
+            for (int j = center-jungleHeight; j <= center+jungleHeight; j++) {
+                if (Math.random() > 0.3) {
+                    jungles.put(new Vector2d(i, j), new Tile(TileType.JUNGLE, new Vector2d(i, j)));
+                }
+            }
+
+        }
+    }
+
+    public Map<Vector2d, Tile> getJungles() {
+        return jungles;
     }
 }
