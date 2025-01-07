@@ -10,18 +10,25 @@ public class Animal implements WorldElement {
         return position;
     }
 
+    public MapDirection getDirection() {
+        return direction;
+    }
+
+    public void setDirection(MapDirection direction) {
+        this.direction = direction;
+    }
+
     public Animal(Vector2d position, int energy) {
         this.direction = MapDirection.NORTH;
         this.position = position;
     }
 
     public String toString() {
-        return switch (direction) {
-            case EAST -> "E";
-            case WEST -> "W";
-            case NORTH -> "N";
-            case SOUTH -> "S";
-        };
+        return "Z";
+    }
+
+    public int getActiveGenome() {
+        return 0;
     }
 
     public boolean isAt(Vector2d position) {
