@@ -15,7 +15,6 @@ public enum MapDirection {
             case NORTH_WEST -> "północny-zachód";
         };
     }
-
 //    public MapDirection next() {
 //        return switch (this) {
 //            case NORTH -> EAST;
