@@ -49,7 +49,7 @@ public class Simulation implements Runnable {
 
         for (MoveDirection direction : directions) {
             if (i == max) i = 0;
-            map.move(map.getAnimals().get(i), direction);
+            map.move(map.getAnimals().get(i));
             i++;
             System.out.println(map);
             try {

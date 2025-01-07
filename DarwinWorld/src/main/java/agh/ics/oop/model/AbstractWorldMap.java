@@ -34,7 +34,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void move(Animal animal) {
-
         Vector2d position = animal.getPosition();
 //        switch (genomeValue) {
 //            case 0: animal.direction = animal.direction; break;
