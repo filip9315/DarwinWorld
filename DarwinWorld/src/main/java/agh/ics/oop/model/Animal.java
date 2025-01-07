@@ -27,12 +27,6 @@ public class Animal implements WorldElement {
     }
 
     public String toString() {
-//        return switch (direction) {
-//            case EAST -> "E";
-//            case WEST -> "W";
-//            case NORTH -> "N";
-//            case SOUTH -> "S";
-//        };
         return "Z";
     }
 
