@@ -35,39 +35,32 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
-    public void move(Animal animal) {
+    public void move(Animal animal, MoveDirection direction) {
 
         Vector2d position = animal.getPosition();
 
-//        switch (genomeValue) {
-//            case 0: animal.direction = animal.direction; break;
-//            case 1: animal.direction = animal.direction.next(); break;
-//            case FORWARD: {
-//                Vector2d tmp = animal.getPosition().add(animal.direction.toUnitVector());
-//                if (this.canMoveTo(tmp)) {
-//                    position = tmp;
-//                }
-//            } break;
-//            case BACKWARD: {
-//                Vector2d tmp = animal.getPosition().subtract(animal.direction.toUnitVector());
-//                if (this.canMoveTo(tmp)) {
-//                    position = tmp;
-//                }
-//            } break;
-//        };
-
-        MapDirection newAnimalDirection = animal.getDirection().rotate(animal.getActiveGenome());
-        animal.setDirection(newAnimalDirection);
-        Vector2d tmp = animal.getPosition().add(animal.getDirection().toUnitVector());
+        switch (direction) {
+            case LEFT: animal.direction = animal.direction.previous(); break;
+            case RIGHT: animal.direction = animal.direction.next(); break;
+            case FORWARD: {
+                Vector2d tmp = animal.getPosition().add(animal.direction.toUnitVector());
+                if (this.canMoveTo(tmp)) {
+                    position = tmp;
+                }
+            } break;
+            case BACKWARD: {
+                Vector2d tmp = animal.getPosition().subtract(animal.direction.toUnitVector());
+                if (this.canMoveTo(tmp)) {
+                    position = tmp;
+                }
+            } break;
+        };
 
 
-        if (this.canMoveTo(tmp)) {
-            animals.remove(animal.getPosition());
-            animal.move(tmp);
-            animals.put(animal.getPosition(), animal);
-            mapChanged("Animal moved to " + animal.getPosition());
-        }
-
+        animals.remove(animal.getPosition());
+        animal.move(position);
+        animals.put(animal.getPosition(), animal);
+        mapChanged("Animal moved to " + animal.getPosition());
     }
 
     public List<WorldElement> getElements() {
