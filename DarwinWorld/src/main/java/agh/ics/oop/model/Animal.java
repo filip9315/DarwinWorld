@@ -4,16 +4,13 @@ public class Animal implements WorldElement {
 
     MapDirection direction;
     private Vector2d position;
-
-    public Animal() {
-        this(new Vector2d(2,2));
-    }
+    int energy;
 
     public Vector2d getPosition() {
         return position;
     }
 
-    public Animal(Vector2d position) {
+    public Animal(Vector2d position, int energy) {
         this.direction = MapDirection.NORTH;
         this.position = position;
     }

@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-
 import java.util.*;
 
 public class WaterMap extends AbstractWorldMap {
@@ -9,10 +8,10 @@ public class WaterMap extends AbstractWorldMap {
     Map<Vector2d, Tile> waters = new HashMap<>();
     int numberOfLakes;
 
-    public WaterMap(int width, int height, int numberOfLakes) {
+    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses) {
         this.width = width;
         this.height = height;
-
+        this.numberOfGrasses = numberOfGrasses;
         this.numberOfLakes = numberOfLakes;
         for (int i = 0; i < numberOfLakes; i++) {
             Vector2d center;
@@ -26,7 +25,7 @@ public class WaterMap extends AbstractWorldMap {
             lakes.add(lake);
             waters.putAll(lake.getWaters());
         }
-        createJungle();
+        placeGrass(numberOfGrasses);
     }
 
     @Override
@@ -36,9 +35,6 @@ public class WaterMap extends AbstractWorldMap {
         }
         if (grasses.get(position) != null) {
             return grasses.get(position);
-        }
-        if(jungles.get(position) != null) {
-            return jungles.get(position);
         }
         if(waters.get(position) != null) {
             return waters.get(position);

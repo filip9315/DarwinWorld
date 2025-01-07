@@ -17,7 +17,6 @@ public class Tile implements WorldElement {
 
     public String toString(){
         return switch (this.tileType) {
-            case JUNGLE -> "J";
             case WATER -> "~";
             case STEPPE -> " ";
         };

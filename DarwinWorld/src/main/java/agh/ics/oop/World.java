@@ -10,14 +10,14 @@ import java.util.List;
 public class World {
 
     public static void main(String[] args){
-        Globe globe = new Globe(10, 10);
-        WaterMap waterMap = new WaterMap(10, 10, 2);
+        Globe globe = new Globe(10, 10, 3);
+        WaterMap waterMap = new WaterMap(10, 10, 2, 3);
 
         List<Vector2d> positions = List.of(new Vector2d(3,3), new Vector2d(3,4));
         List<MoveDirection> directions = OptionsParser.parse(args);
 
 
-        Simulation simulation = new Simulation(positions, directions, waterMap);
+        Simulation simulation = new Simulation(10, directions, waterMap, 10, 5);
 
         simulation.run();
     }

@@ -1,19 +1,17 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.IncorrectPositionException;
-import agh.ics.oop.model.MapVisualizer;
-
 import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
     int width;
     int height;
+    int numberOfGrasses;
 
     Map<Vector2d, Animal> animals = new HashMap<>();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
-    Map<Vector2d, Tile> jungles = new HashMap<>();
 
     List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
@@ -93,9 +91,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (grasses.get(position) != null) {
             return grasses.get(position);
         }
-        if(jungles.get(position) != null) {
-            return jungles.get(position);
-        }
         return null;
     }
 
@@ -111,21 +106,24 @@ public abstract class AbstractWorldMap implements WorldMap {
         return id;
     }
 
-    void createJungle(){
-        int center = height / 2;
-        int jungleHeight = height / 5;
+    public List<Vector2d> getLivableTiles(){
 
-        for (int i = 0; i <= width; i++) {
-            for (int j = center-jungleHeight; j <= center+jungleHeight; j++) {
-                if (Math.random() > 0.3) {
-                    jungles.put(new Vector2d(i, j), new Tile(TileType.JUNGLE, new Vector2d(i, j)));
+        List<Vector2d> livableTiles = new ArrayList<>();
+
+        for (int i = 0; i <= this.getCurrentBounds().upperRight().getX(); i++) {
+            for (int j = 0; j <= this.getCurrentBounds().upperRight().getY(); j++) {
+                if(objectAt(new Vector2d(i, j)) == null){
+                    livableTiles.add(new Vector2d(i, j));
                 }
             }
-
         }
+        return livableTiles;
     }
 
-    public Map<Vector2d, Tile> getJungles() {
-        return jungles;
+    void placeGrass(int n){
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(width, height, n);
+        for(Vector2d grassPosition : randomPositionGenerator) {
+            grasses.put(grassPosition, new Grass(grassPosition));
+        }
     }
 }

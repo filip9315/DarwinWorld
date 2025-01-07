@@ -4,11 +4,12 @@ import java.util.UUID;
 
 public class Globe extends AbstractWorldMap {
 
-    public Globe(int width, int height) {
+    public Globe(int width, int height, int numberOfGrasses) {
         this.width = width;
         this.height = height;
         this.id = UUID.randomUUID();
-        createJungle();
+        this.numberOfGrasses = numberOfGrasses;
+        placeGrass(numberOfGrasses);
     }
 
     public boolean canMoveTo(Vector2d position) {

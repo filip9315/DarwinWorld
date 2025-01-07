@@ -1,9 +1,6 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.World;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Lake {
@@ -19,9 +16,7 @@ public class Lake {
             for (int j = 0; j <= map.getCurrentBounds().upperRight().getY(); j++) {
                 if (Math.pow(Math.abs(i - center.getX()), 2) + Math.pow(Math.abs(j - center.getY()), 2) <= radius) {
                     Vector2d pos = new Vector2d(i, j);
-                    if (!map.getJungles().containsKey(pos)) {
-                        waters.put(pos, new Tile(TileType.WATER, pos));
-                    }
+                    waters.put(pos, new Tile(TileType.WATER, pos));
                 }
             }
         }

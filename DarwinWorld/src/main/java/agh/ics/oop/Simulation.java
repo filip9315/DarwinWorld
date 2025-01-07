@@ -1,25 +1,27 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
+import agh.ics.oop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation implements Runnable {
 
-    List<Vector2d> positions;
+    List<Vector2d> positions = new ArrayList<>();
     List<MoveDirection> directions;
+    int numberOfAnimals;
 
     WorldMap map;
 
-    public Simulation(List<Vector2d> positions, List<MoveDirection> directions, WorldMap map) {
-        this.positions = positions;
+    public Simulation(int numberOfAnimals, List<MoveDirection> directions, WorldMap map, int initEnergy, int genomeLength) {
+        this.numberOfAnimals = numberOfAnimals;
         this.directions = directions;
         this.map = map;
+
+        generatePositions(numberOfAnimals);
+
         for (Vector2d position : positions) {
-            Animal tmp = new Animal(position);
+            Animal tmp = new Animal(position, initEnergy);
             try {
                 map.place(tmp);
             } catch(IncorrectPositionException e) {
@@ -30,6 +32,14 @@ public class Simulation implements Runnable {
 
     public Animal getAnimal(int i) {
         return map.getAnimals().get(i);
+    }
+
+    public void generatePositions(int n) {
+        for (int i = 0; i < n; i++) {
+            int size = map.getLivableTiles().size();
+            Vector2d position = map.getLivableTiles().get((int) (Math.random() * size));
+            positions.add(position);
+        }
     }
 
     public void run(){
