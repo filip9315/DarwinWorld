@@ -5,6 +5,7 @@ public class Animal implements WorldElement {
     MapDirection direction;
     private Vector2d position;
     int energy;
+    Genotype genotype;
 
     public Vector2d getPosition() {
         return position;
@@ -18,17 +19,15 @@ public class Animal implements WorldElement {
         this.direction = direction;
     }
 
-    public Animal(Vector2d position, int energy) {
+    public Animal(Vector2d position, int energy, Genotype genotype) {
         this.direction = MapDirection.NORTH;
         this.position = position;
+        this.energy = energy;
+        this.genotype = genotype;
     }
 
     public String toString() {
         return "Z";
-    }
-
-    public int getActiveGenome() {
-        return 0;
     }
 
     public boolean isAt(Vector2d position) {
@@ -39,5 +38,8 @@ public class Animal implements WorldElement {
         this.position = position;
     }
 
+    public int getActiveGene() {
+        return genotype.useGenotype();
+    }
 
 }
