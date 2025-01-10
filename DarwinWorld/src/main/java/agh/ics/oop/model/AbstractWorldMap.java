@@ -12,7 +12,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     Map<Vector2d, Animal> animals = new HashMap<>();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
-
     List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
     UUID id;
@@ -35,24 +34,8 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public void move(Animal animal) {
         Vector2d position = animal.getPosition();
-//        switch (genomeValue) {
-//            case 0: animal.direction = animal.direction; break;
-//            case 1: animal.direction = animal.direction.next(); break;
-//            case FORWARD: {
-//                Vector2d tmp = animal.getPosition().add(animal.direction.toUnitVector());
-//                if (this.canMoveTo(tmp)) {
-//                    position = tmp;
-//                }
-//            } break;
-//            case BACKWARD: {
-//                Vector2d tmp = animal.getPosition().subtract(animal.direction.toUnitVector());
-//                if (this.canMoveTo(tmp)) {
-//                    position = tmp;
-//                }
-//            } break;
-//        };
 
-        MapDirection newAnimalDirection = animal.getDirection().rotate(animal.getActiveGenome());
+        MapDirection newAnimalDirection = animal.getDirection().rotate(animal.getActiveGene());
         animal.setDirection(newAnimalDirection);
         Vector2d tmp = animal.getPosition().add(animal.getDirection().toUnitVector());
 
@@ -126,8 +109,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     void placeGrass(int n){
-        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(width, height, n);
-        for(Vector2d grassPosition : randomPositionGenerator) {
+        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
+        for(Vector2d grassPosition : randomPositionsGenerator) {
             grasses.put(grassPosition, new Grass(grassPosition));
         }
     }

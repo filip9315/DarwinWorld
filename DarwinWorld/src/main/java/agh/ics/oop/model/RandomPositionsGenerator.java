@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class RandomPositionGenerator implements Iterable<Vector2d> {
+public class RandomPositionsGenerator implements Iterable<Vector2d> {
 
     int maxWidth;
     int maxHeight;
     int grassCount;
     List<Vector2d> positions = new ArrayList<>();
 
-    public RandomPositionGenerator(int maxWidth, int maxHeight, int grassCount) {
+    public RandomPositionsGenerator(int maxWidth, int maxHeight, int grassCount) {
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.grassCount = grassCount;

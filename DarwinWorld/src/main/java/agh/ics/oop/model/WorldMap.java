@@ -53,4 +53,5 @@ public interface WorldMap extends MoveValidator {
     void unregisterMapChangeListener(MapChangeListener mapChangeListener);
     UUID getId();
     List<Vector2d> getLivableTiles();
+    void accept(Visitor visitor, int n);
 }

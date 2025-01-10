@@ -1,9 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Globe;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WaterMap;
+import agh.ics.oop.model.*;
 
 import java.util.List;
 
@@ -16,8 +13,13 @@ public class World {
         List<Vector2d> positions = List.of(new Vector2d(3,3), new Vector2d(3,4));
         List<MoveDirection> directions = OptionsParser.parse(args);
 
+        int genomeLength = 10;
+        List<Integer> genesList = List.of(1, 2, 3, 4, 5, 6, 7, 2, 0, 1);
 
-        Simulation simulation = new Simulation(10, directions, waterMap, 10, 5);
+        Genotype genotype = new Genotype(genesList);
+        Genotype genotype2 = new GenotypeSlightCorrection(genesList);
+
+        Simulation simulation = new Simulation(3, directions, waterMap, 10, genotype, 3);
 
         simulation.run();
     }

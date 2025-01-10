@@ -13,11 +13,12 @@ public class WaterMap extends AbstractWorldMap {
         this.height = height;
         this.numberOfGrasses = numberOfGrasses;
         this.numberOfLakes = numberOfLakes;
+
         for (int i = 0; i < numberOfLakes; i++) {
             Vector2d center;
             if (Math.random() < 0.5) {
                 center = new Vector2d((int) (Math.random()*width), (int) (Math.random()*((double) height /5)));
-            } else{
+            } else {
                 center = new Vector2d((int) (Math.random()*width), (height*4/5) + (int) (Math.random()*(height)/5));
             }
             int radius = (int) (Math.random()*5);
@@ -55,5 +56,9 @@ public class WaterMap extends AbstractWorldMap {
             lakes.set(lakes.indexOf(lake), newLake);
             waters.putAll(newLake.getWaters());
         }
+    }
+
+    public void accept(Visitor visitor, int flow) {
+        visitor.visit(this, flow);
     }
 }

@@ -10,18 +10,23 @@ public class Simulation implements Runnable {
     List<Vector2d> positions = new ArrayList<>();
     List<MoveDirection> directions;
     int numberOfAnimals;
+    int simulationLength;
+    Genotype genotype;
 
     WorldMap map;
+    Visitor visitor = new MapActionVisitor();
 
-    public Simulation(int numberOfAnimals, List<MoveDirection> directions, WorldMap map, int initEnergy, int genomeLength) {
+    public Simulation(int numberOfAnimals, List<MoveDirection> directions, WorldMap map, int initEnergy, Genotype genotype, int simulationLength) {
         this.numberOfAnimals = numberOfAnimals;
         this.directions = directions;
         this.map = map;
+        this.simulationLength = simulationLength;
+        this.genotype = genotype;
 
         generatePositions(numberOfAnimals);
 
         for (Vector2d position : positions) {
-            Animal tmp = new Animal(position, initEnergy);
+            Animal tmp = new Animal(position, initEnergy, genotype);
             try {
                 map.place(tmp);
             } catch(IncorrectPositionException e) {
@@ -43,21 +48,22 @@ public class Simulation implements Runnable {
     }
 
     public void run(){
-        int i = 0;
-        int max = map.getAnimals().size();
         System.out.println(map);
 
-        for (MoveDirection direction : directions) {
-            if (i == max) i = 0;
-            map.move(map.getAnimals().get(i));
-            i++;
+        for (int i=0; i < simulationLength; i++) {
+            for (Animal animal : map.getAnimals()) {
+                map.move(animal);
+            }
             System.out.println(map);
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
+            map.accept(visitor, (int)(Math.random() * 3));
         }
+
     }
 
 }
