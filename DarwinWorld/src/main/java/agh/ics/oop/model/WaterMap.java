@@ -49,7 +49,8 @@ public class WaterMap extends AbstractWorldMap {
 
     }
 
-    public void changeSizeOfLakes(int flow){
+    public void changeSizeOfLakes(){
+        int flow = (int)(Math.random() * 3);
         waters.clear();
         for (Lake lake : lakes) {
             Lake newLake = new Lake(lake.getCenter(), lake.getRadius()+flow, this);
@@ -58,7 +59,7 @@ public class WaterMap extends AbstractWorldMap {
         }
     }
 
-    public void accept(Visitor visitor, int flow) {
-        visitor.visit(this, flow);
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

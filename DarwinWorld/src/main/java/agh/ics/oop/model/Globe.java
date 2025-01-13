@@ -19,7 +19,7 @@ public class Globe extends AbstractWorldMap {
         return position.getY() <= top && position.getY() >= bottom;
     }
 
-    public void accept(Visitor visitor, int n) {
-        visitor.visit(this, n);
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

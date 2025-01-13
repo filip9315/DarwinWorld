@@ -55,13 +55,8 @@ public class Simulation implements Runnable {
                 map.move(animal);
             }
             System.out.println(map);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-            map.accept(visitor, (int)(Math.random() * 3));
+            map.accept(visitor);
         }
 
     }
