@@ -1,0 +1,17 @@
+- Rośliny
+- Jedzenie (animal)
+- Rozmnażanie (animal)
+++++ - Teleportacja na drugą stronę (Globe)  ++++
+- Usuwanie martwych zwierzaków (Simulation)
+- Symulacja
+- GUI
+- Statystyki (Statystyki każdego dnia powinny być zapisywane do pliku CSV)
+- Informacje zwierzaka (genotyp, aktywny gen, energia, zjedzone rośliny, ilość dzieci, ilość potomków, ile dni żyje, kiedy zmarł)
+- W statyscyce po zatrzymaniu programu: najpopularniejszy genotyp i pola z największą ilością roślin
+++++ - Testy [done] ++++
+- Obsługa błędów
+- Rozstrzyganie jedzenia rośliny dla kilku zwierząt na jednym polu
+
+
+GUI:
+- Menu konfiguracji i dla każdej symulacji oddzielne okno

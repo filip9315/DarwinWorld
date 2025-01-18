@@ -16,9 +16,8 @@ public class Simulation implements Runnable {
     WorldMap map;
     Visitor visitor = new MapActionVisitor();
 
-    public Simulation(int numberOfAnimals, List<MoveDirection> directions, WorldMap map, int initEnergy, Genotype genotype, int simulationLength) {
+    public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, Genotype genotype, int simulationLength) {
         this.numberOfAnimals = numberOfAnimals;
-        this.directions = directions;
         this.map = map;
         this.simulationLength = simulationLength;
         this.genotype = genotype;

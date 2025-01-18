@@ -19,7 +19,7 @@ public class World {
         Genotype genotype = new Genotype(genesList);
         Genotype genotype2 = new GenotypeSlightCorrection(genesList);
 
-        Simulation simulation = new Simulation(3, directions, waterMap, 10, genotype, 3);
+        Simulation simulation = new Simulation(3, waterMap, 10, genotype, 3);
 
         simulation.run();
     }
