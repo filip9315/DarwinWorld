@@ -15,9 +15,6 @@
         <VBox alignment="CENTER">
             <Label fx:id="infoLabel"/>
             <GridPane fx:id="mapGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS" alignment="CENTER"/>
-            <HBox alignment="CENTER">
-                <TextField fx:id="textField"/>
-            </HBox>
         </VBox>
     </center>
 </BorderPane>

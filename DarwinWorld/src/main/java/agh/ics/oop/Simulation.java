@@ -63,6 +63,11 @@ public class Simulation implements Runnable {
 
             map.accept(visitor);
             map.updateWorldMap();
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
