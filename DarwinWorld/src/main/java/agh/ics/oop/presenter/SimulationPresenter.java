@@ -9,9 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -25,6 +24,9 @@ import java.util.stream.Stream;
 
 public class SimulationPresenter implements MapChangeListener {
 
+    public TableView tableView;
+    public TableColumn column1;
+    public TableColumn column2;
     WorldMap map;
     double tileWidth = 0;
     double tileHeight = 0;
@@ -41,6 +43,24 @@ public class SimulationPresenter implements MapChangeListener {
     private GridPane mapGrid;
 
 
+
+    @FXML
+    public void initialize() {
+        column1.setCellValueFactory(new PropertyValueFactory<>("column1"));
+        column2.setCellValueFactory(new PropertyValueFactory<>("column2"));
+
+        for (int i = 1; i <= 10; i++) {
+            tableView.getItems().add();
+        }
+    }
+    
+    
+    
+    
+    //===========
+    //=== Map ===
+    //===========
+    
     public void setMap(WorldMap map) {
         this.map = map;
     }
@@ -48,41 +68,42 @@ public class SimulationPresenter implements MapChangeListener {
     public void drawMap(){
         clearGrid();
 
-        int x0 = map.getCurrentBounds().lowerLeft().getX();
-        int y0 = map.getCurrentBounds().lowerLeft().getY();
-        int xn = map.getCurrentBounds().upperRight().getX();
-        int yn = map.getCurrentBounds().upperRight().getY();
-        int width = xn - x0;
-        int height = yn - y0;
-        tileWidth = (double) 500 /width;
+        int width = map.getMapWidth();
+        int height = map.getMapHeight();
+        tileWidth = (double) 500/width;
         tileHeight = (double) 500/height;
-
 
         for (int i = 0; i < width; i++) {
             mapGrid.getColumnConstraints().add(new ColumnConstraints(tileWidth));
         }
+
         for (int i = 0; i < height; i++) {
             mapGrid.getRowConstraints().add(new RowConstraints(tileHeight));
         }
 
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                drawWorldElement(new Tile(TileType.STEPPE, new Vector2d(i, j)));
+            }
+        }
+
         map.getElements().stream()
                 .filter(Objects::nonNull)
-                .forEach(worldElement -> drawWorldElement(worldElement, x0, y0));
+                .forEach(this::drawWorldElement);
 
         map.getElements().stream()
                 .filter(worldElement -> worldElement instanceof Grass)
                 .filter(worldElement -> !(map.objectAt(worldElement.getPosition()) instanceof Animal))
-                .forEach(worldElement -> drawWorldElement(worldElement, x0, y0));
+                .forEach(this::drawWorldElement);
 
     }
 
-    private void drawWorldElement(WorldElement element, int x0, int y0) {
+    private void drawWorldElement(WorldElement element) {
         int x = element.getPosition().getX();
         int y = element.getPosition().getY();
 
-
         Node shape = element.getShape(tileWidth, tileHeight);
-        mapGrid.add(shape, x + 1 - x0, y + 1 - y0, 1, 1);
+        mapGrid.add(shape, x, y, 1, 1);
         GridPane.setHalignment(shape, HPos.CENTER);
     }
 

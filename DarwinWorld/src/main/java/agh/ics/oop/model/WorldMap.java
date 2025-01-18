@@ -57,4 +57,6 @@ public interface WorldMap extends MoveValidator {
     int getGrassEnergy();
     int getProcretionEnergy();
     void updateWorldMap();
+    int getMapWidth();
+    int getMapHeight();
 }

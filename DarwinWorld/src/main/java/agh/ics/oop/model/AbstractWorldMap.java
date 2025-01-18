@@ -94,7 +94,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public Boundary getCurrentBounds(){
-        return new Boundary(new Vector2d(0, 0), new Vector2d(width, height));
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width-1, height-1));
     }
 
     public List<Animal> getAnimals() {
@@ -177,5 +177,12 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public void removeDeadAnimals() {
 
+    }
+
+    public int getMapWidth() {
+        return width;
+    }
+    public int getMapHeight() {
+        return height;
     }
 }

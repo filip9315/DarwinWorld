@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Genotype {
     public int activeGeneIndex = 0;
@@ -28,5 +29,23 @@ public class Genotype {
                 genesList.set(i, newGene);
             }
         }
+    }
+
+    public boolean equals(Object other){
+        if (this == other)
+            return true;
+        if (!(other instanceof Genotype))
+            return false;
+
+        for(int i = 0; i < numOfGenes; i++){
+            if(!this.genesList.get(i).equals(((Genotype)other).genesList.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int hashCode(){
+        return Objects.hash(genesList);
     }
 }

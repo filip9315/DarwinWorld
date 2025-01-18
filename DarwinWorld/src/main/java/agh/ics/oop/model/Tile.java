@@ -31,7 +31,7 @@ public class Tile implements WorldElement {
 
         switch (this.tileType) {
             case WATER: rectangle.setFill(Color.BLUE); break;
-            case STEPPE: rectangle.setFill(Color.GREEN); break;
+            case STEPPE: rectangle.setFill(Color.LIGHTGREEN); break;
         }
 
         return rectangle;
