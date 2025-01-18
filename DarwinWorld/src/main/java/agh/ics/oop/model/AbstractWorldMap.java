@@ -8,6 +8,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     int width;
     int height;
     int numberOfGrasses;
+    int grassEnergy;
+    int procreationEnergy;
 
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
