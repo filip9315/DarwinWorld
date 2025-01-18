@@ -9,7 +9,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int height;
     int numberOfGrasses;
     int grassEnergy = 1;
-    int procreationEnergy = 100;
+    int procreationEnergy = 10;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
@@ -56,12 +56,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         return position;
     }
 
-    public void killAnimal(Animal animal) {
-        animals.removeAnimal(animal);
-        animalList.remove(animal);
-        mapChanged("Animal killed on " + animal.getPosition());
-    }
-
     public void move(Animal animal) {
         Vector2d newPosition = newAnimalPosition(animal);
         newPosition = normaliseNewPosition(newPosition);
@@ -82,7 +76,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 //    }
     public ArrayList<WorldElement> getElements() {
         ArrayList<WorldElement> elements = new ArrayList<>();
-        elements.addAll(animals.getAllAnimals());
+        elements.addAll(animals.getAllAnimalsAsWorldElements());
         elements.addAll(grasses.values());
 
         return elements;
@@ -161,21 +155,43 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
+    void removeGrass(Vector2d grassPosition){
+        grasses.remove(grassPosition);
+    }
+
     public void updateWorldMap(){
-        animalsFeed();
+        animalsConsumeGrass();
         animalsProcreate();
         removeDeadAnimals();
     }
 
-    public void animalsFeed () {
-
+    public void animalsConsumeGrass () {
+        Set<Vector2d> greassesPositions = grasses.keySet();
+        for (Vector2d grassPosition : greassesPositions) {
+            List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(grassPosition);
+            if (!sortedAnimals.isEmpty()) {
+                sortedAnimals.getFirst().consumeGrass();
+                removeGrass(grassPosition);
+            }
+        }
     }
 
     public void animalsProcreate() {
-
+        for (ArrayList<Animal> animalsList : animals.values()) {
+            if (animalsList.size() > 1) {
+                List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(animalsList.getFirst().getPosition());
+                Animal newAnimal = sortedAnimals.getFirst().procreate(sortedAnimals.get(1));
+            }
+        }
     }
 
     public void removeDeadAnimals() {
+        ArrayList<Animal> allAnimals = animals.getAllAnimals();
+        for (Animal animal : allAnimals) {
+            if (animal.getEnergy() <= 0) {
+                animals.removeAnimal(animal);
+            }
+        }
 
     }
 
@@ -185,4 +201,5 @@ public abstract class AbstractWorldMap implements WorldMap {
     public int getMapHeight() {
         return height;
     }
+
 }

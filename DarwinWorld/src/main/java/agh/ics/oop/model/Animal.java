@@ -14,6 +14,8 @@ public class Animal implements WorldElement {
     MapDirection direction;
     private Vector2d position;
     int energy;
+    int age;
+    int numOfChildren;
     Genotype genotype;
     WorldMap map;
 
@@ -75,6 +77,24 @@ public class Animal implements WorldElement {
         return genotype.useGenotype();
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getNumOfChildren() {
+        return numOfChildren;
+    }
+
+    public Animal procreate(Animal animal) {
+        if (this.canProcreate() && animal.canProcreate()) {
+
+        }
+        return this;
+    }
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);
