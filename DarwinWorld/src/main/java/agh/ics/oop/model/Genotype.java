@@ -36,6 +36,28 @@ public class Genotype {
         return genesList.get(currentGeneIndex);
     }
 
+    public Genotype(Animal animal1, Animal animal2){
+        numOfGenes = animal1.getGenotype().getGenesList().size();
+        List<Integer> newGenesList = new ArrayList<>();
+        if (Math.random() < 0.5) {
+            double energyRatio = (double) animal1.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
+            int partitionIndex = (int) (numOfGenes * energyRatio);
+            newGenesList.addAll(animal1.getGenotype().getGenesList().subList(0, partitionIndex));
+            newGenesList.addAll(animal2.getGenotype().getGenesList().subList(partitionIndex, numOfGenes));
+        } else {
+            double energyRatio = (double) animal2.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
+            int partitionIndex = (int) (numOfGenes * energyRatio);
+            newGenesList.addAll(animal2.getGenotype().getGenesList().subList(0, partitionIndex));
+            newGenesList.addAll(animal1.getGenotype().getGenesList().subList(partitionIndex, numOfGenes));
+        }
+
+        this.minGenesToMutate = animal1.getGenotype().minGenesToMutate;
+        this.maxGenesToMutate = animal1.getGenotype().maxGenesToMutate;
+        this.mutate();
+    }
+
+
+
     public void mutate(){
         Random random = new Random();
         int numOfGenesToMutate = random.nextInt(maxGenesToMutate - minGenesToMutate + 1) + minGenesToMutate;
@@ -72,5 +94,9 @@ public class Genotype {
 
     public String toString(){
         return genesList.toString();
+    }
+
+    public List<Integer> getGenesList() {
+        return genesList;
     }
 }

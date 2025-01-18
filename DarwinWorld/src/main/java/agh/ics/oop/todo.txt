@@ -1,9 +1,9 @@
 - Rośliny
-- Jedzenie (animal)
-- Rozmnażanie (animal)
-- Liczba mutacji zależna od min i max
+++++ - Jedzenie (animal) +++
+++++ - Rozmnażanie (animal) ++++
+++++ - Liczba mutacji zależna od min i max ++++
 ++++ - Teleportacja na drugą stronę (Globe)  ++++
-- Usuwanie martwych zwierzaków (Simulation)
++++ - Usuwanie martwych zwierzaków (Simulation) ++++
 - Symulacja
 - GUI
 - Statystyki (Statystyki każdego dnia powinny być zapisywane do pliku CSV)
@@ -11,7 +11,7 @@
 - W statyscyce po zatrzymaniu programu: najpopularniejszy genotyp i pola z największą ilością roślin
 ++++ - Testy [done] ++++
 - Obsługa błędów
-- Rozstrzyganie jedzenia rośliny dla kilku zwierząt na jednym polu
+++++ - Rozstrzyganie jedzenia rośliny dla kilku zwierząt na jednym polu ++++
 
 
 GUI:

@@ -23,6 +23,18 @@ public class Animal implements WorldElement {
         return position;
     }
 
+    public Genotype getGenotype() {
+        return genotype;
+    }
+
+    public int getNumberOfChildren() {
+        return numOfChildren;
+    }
+
+    public void setNumberOfChildren(int numOfChildren) {
+        this.numOfChildren = numOfChildren;
+    }
+
     public MapDirection getDirection() {
         return direction;
     }
@@ -81,6 +93,10 @@ public class Animal implements WorldElement {
         return energy;
     }
 
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
     public int getAge() {
         return age;
     }
@@ -89,11 +105,13 @@ public class Animal implements WorldElement {
         return numOfChildren;
     }
 
-    public Animal procreate(Animal animal) {
-        if (this.canProcreate() && animal.canProcreate()) {
+    public Animal procreate(Animal animal2) {
+        this.setEnergy(this.getEnergy() - map.getProcretionEnergy());
+        animal2.setEnergy(animal2.getEnergy() - map.getProcretionEnergy());
+        this.setNumberOfChildren(this.getNumberOfChildren() + 1);
+        animal2.setNumberOfChildren(this.getNumberOfChildren() + 1);
 
-        }
-        return this;
+        return new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
     }
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
