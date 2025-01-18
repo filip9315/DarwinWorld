@@ -35,4 +35,28 @@ public class AnimalsHashMap {
         Vector2d position = animal.getPosition();
         animals.getOrDefault(position, new ArrayList<Animal>()).remove(animal);
     }
+
+    public List<Animal> sortAnimalsAtGivenPosition(Vector2d position) {
+        List<Animal> sortedAnimals = getAnimalsAtPosition(position);
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getEnergy)).toList();
+        if (sortedAnimals.get(0).getEnergy() != sortedAnimals.get(1).getEnergy()) {
+            return sortedAnimals;
+        }
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getAge)).toList();
+        if (sortedAnimals.get(0).getAge() != sortedAnimals.get(1).getAge()) {
+            return sortedAnimals;
+        }
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getNumOfChildren)).toList();
+        if (sortedAnimals.get(0).getNumOfChildren() != sortedAnimals.get(1).getNumOfChildren()) {
+            return sortedAnimals;
+        }
+        if (Math.random() < 0.5) {
+            Collections.swap(sortedAnimals, 1, 0);
+        }
+        return sortedAnimals;
+    }
+
+    public ArrayList<ArrayList<Animal>> values() {
+        return new ArrayList<>(animals.values());
+    }
 }

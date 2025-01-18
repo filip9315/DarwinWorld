@@ -1,6 +1,7 @@
 - Rośliny
 - Jedzenie (animal)
 - Rozmnażanie (animal)
+- Liczba mutacji zależna od min i max
 ++++ - Teleportacja na drugą stronę (Globe)  ++++
 - Usuwanie martwych zwierzaków (Simulation)
 - Symulacja

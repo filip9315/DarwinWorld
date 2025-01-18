@@ -9,7 +9,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int height;
     int numberOfGrasses;
     int grassEnergy = 1;
-    int procreationEnergy = 100;
+    int procreationEnergy = 10;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
@@ -161,21 +161,40 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
+    void removeGrass(Vector2d grassPosition){
+        grasses.remove(grassPosition);
+    }
+
     public void updateWorldMap(){
-        animalsFeed();
+        animalsConsumeGrass();
         animalsProcreate();
         removeDeadAnimals();
     }
 
-    public void animalsFeed () {
-
+    public void animalsConsumeGrass () {
+        for (Vector2d grassPosition : grasses.keySet()) {
+            List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(grassPosition);
+            sortedAnimals.getFirst().consumeGrass();
+            removeGrass(grassPosition);
+        }
     }
 
     public void animalsProcreate() {
+        for (ArrayList<Animal> animalsList : animals.values()) {
+            if (animalsList.size() > 1) {
+                List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(animalsList.getFirst().getPosition());
 
+            }
+        }
     }
 
     public void removeDeadAnimals() {
-
+        ArrayList<Animal> allAnimals = animals.getAllAnimals();
+        for (Animal animal : allAnimals) {
+            if (animal.getEnergy() <= 0) {
+                animals.removeAnimal(animal);
+            }
+        }
     }
+
 }
