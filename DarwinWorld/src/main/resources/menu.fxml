@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane minHeight="800.0" minWidth="900.0" style="-fx-padding: 20;"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="agh.ics.oop.presenter.MenuPresenter">
+    <center>
+        <VBox>
+
+            <Label text="Create new simulation">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Simulation length"/>
+                <TextField fx:id="simulationLengthTextField"/>
+            </HBox>
+
+            <Label text="Map">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+
+            <HBox prefHeight="18.0" prefWidth="860.0">
+                <Label text="Map width"/>
+                <TextField fx:id="widthTextField" />
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Map height"/>
+                <TextField fx:id="heightTextField" />
+            </HBox>
+
+            <HBox prefHeight="6.0" prefWidth="860.0">
+                <Label text="Map type"/>
+                <RadioButton fx:id="globeRadioButton" mnemonicParsing="false" text="Globe"
+                             onAction="#handleMapTypeSelection0"/>
+                <RadioButton fx:id="waterMapRadioButton" mnemonicParsing="false" text="Water map"
+                             onAction="#handleMapTypeSelection1"/>
+            </HBox>
+
+            <Separator prefHeight="15.0" prefWidth="860.0" />
+
+            <Label text="Grass">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Initial number of grasses"/>
+                <TextField fx:id="numberOfGrassesTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Number of grasses growing every day"/>
+                <TextField fx:id="growingGrassesTextField"/>
+            </HBox>
+
+            <Separator prefHeight="15.0" prefWidth="860.0" />
+
+            <Label text="Animals">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Initial number of animals"/>
+                <TextField fx:id="numberOfAnimalsTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Initial energy"/>
+                <TextField fx:id="initEnergyTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Max amount of energy"/>
+                <TextField fx:id="maxAmountOfEnergyTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Energy used to procreate"/>
+                <TextField fx:id="energyToProcreateTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Min number of mutations"/>
+                <TextField fx:id="minNumberOfMutationsTextField"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Max number of mutations"/>
+                <TextField fx:id="maxNumberOfMutationsTextField"/>
+            </HBox>
+
+            <HBox prefHeight="6.0" prefWidth="860.0">
+                <Label text="Mutation type"/>
+                <RadioButton mnemonicParsing="false" text="Random"
+                             fx:id="randomMutationButton" onAction="#handleMutationTypeSelection0"/>
+                <RadioButton mnemonicParsing="false" text="Slight correction"
+                             fx:id="slightCorrectionMutationButton" onAction="#handleMutationTypeSelection1"/>
+            </HBox>
+
+            <HBox prefHeight="0.0" prefWidth="860.0">
+                <Label text="Genotype length"/>
+                <TextField fx:id="genotypeLengthTextField"/>
+            </HBox>
+
+            <Separator prefHeight="15.0" prefWidth="860.0" />
+
+            <Button fx:id="saveSimulationButton" mnemonicParsing="false" onAction="#handleSaveFileButtonAction" text="Save simulation" />
+
+            <Button fx:id="startSimulationButton" mnemonicParsing="false" onAction="#handleStartSimulationButton" text="Start simulation" />
+
+        </VBox>
+    </center>
+
+    <top>
+        <VBox prefHeight="115.0" prefWidth="860.0" BorderPane.alignment="CENTER">
+
+            <Label text="Load saved simulation">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+
+            <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#handleChooseFileButtonAction" text="Choose file" />
+
+            <Label fx:id="chosenFileLabel" text="No file chosen" />
+
+
+            <Separator prefHeight="15.0" prefWidth="860.0" />
+
+        </VBox>
+    </top>
+
+</BorderPane>

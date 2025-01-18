@@ -24,7 +24,7 @@ public class Simulation implements Runnable {
 
         generatePositions(numberOfAnimals);
 
-        //TODO usunąć to (konstruktor animala się zmienił:
+        //TODO usunąć to (konstruktor animala się zmienił):
         List<Integer> genesList = List.of(1, 2, 3, 4, 5, 6, 7, 2, 0, 1);
         Genotype genotype = new Genotype(genesList);
 
@@ -41,6 +41,7 @@ public class Simulation implements Runnable {
     public Animal getAnimal(int i) {
         return map.getAnimals().get(i);
     }
+    public WorldMap getMap() {return map;}
 
     public void generatePositions(int n) {
         for (int i = 0; i < n; i++) {

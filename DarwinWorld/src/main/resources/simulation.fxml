@@ -1,128 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<BorderPane minHeight="800.0" minWidth="900.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.MenuPresenter">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="800.0" minWidth="900.0"
+            fx:controller="agh.ics.oop.presenter.SimulationPresenter"
+            style="-fx-padding: 20;">
     <center>
-        <VBox>
-            <Label fx:id="infoLabel" text="Create new simulation">
-                <font>
-                    <Font size="24.0" />
-                </font></Label>
-            <Label text="Map">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-            <HBox prefHeight="18.0" prefWidth="860.0">
-                <children>
-                    <Label text="Map width" />
-                    <TextField />
-                </children>
+        <VBox alignment="CENTER">
+            <Label fx:id="infoLabel"/>
+            <GridPane fx:id="mapGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS" alignment="CENTER"/>
+            <HBox alignment="CENTER">
+                <TextField fx:id="textField"/>
             </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Map height" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="6.0" prefWidth="860.0">
-                <children>
-                    <Label text="Map type" />
-                    <RadioButton mnemonicParsing="false" text="Globe" />
-                    <RadioButton mnemonicParsing="false" text="Water map" />
-                </children>
-            </HBox>
-            <Separator prefHeight="15.0" prefWidth="860.0" />
-            <Label text="Grass">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Initial number of grasses" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Number of grasses growing every day" />
-                    <TextField />
-                </children>
-            </HBox>
-            <Separator prefHeight="15.0" prefWidth="860.0" />
-            <Label text="Animals">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Initial number of animals" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Initial energy" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Max amount of energy" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Energy used to procreate" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Min number of mutations" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Max number of mutations" />
-                    <TextField />
-                </children>
-            </HBox>
-            <HBox prefHeight="6.0" prefWidth="860.0">
-                <children>
-                    <Label text="Mutation type" />
-                    <RadioButton mnemonicParsing="false" text="Random" />
-                    <RadioButton mnemonicParsing="false" text="Slight correction" />
-                </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="860.0">
-                <children>
-                    <Label text="Genotype length" />
-                    <TextField />
-                </children>
-            </HBox>
-            <Separator prefHeight="15.0" prefWidth="860.0" />
-            <Button fx:id="saveSimulationButton" mnemonicParsing="false" onAction="#handleSaveFileButtonAction" text="Save simulation" />
-            <Button fx:id="startSimulationButton" mnemonicParsing="false" onAction="#handleStartSimulationButton" text="Start simulation" />
         </VBox>
     </center>
-    <top>
-        <VBox prefHeight="115.0" prefWidth="860.0" BorderPane.alignment="CENTER">
-            <Label text="Load saved simulation">
-                <font>
-                    <Font size="24.0" />
-                </font></Label>
-            <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#handleChooseFileButtonAction" text="Choose file" />
-         <Label fx:id="chosenFileLabel" text="No file chosen" />
-            <Button mnemonicParsing="false" text="Start" />
-            <Separator prefHeight="15.0" prefWidth="860.0" />
-        </VBox>
-    </top>
 </BorderPane>

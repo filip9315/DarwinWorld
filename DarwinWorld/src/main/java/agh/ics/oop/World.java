@@ -15,8 +15,8 @@ public class World {
         Simulation simulation = new Simulation(3, waterMap, 10, 5, 3);
 
 
-        SimulationEngine simulationEngine = new SimulationEngine();
-        simulationEngine.runAsyncInThreadPool(simulation);
+
+
     }
 
 }
