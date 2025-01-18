@@ -2,8 +2,8 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.IncorrectPositionException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -46,7 +46,7 @@ public interface WorldMap extends MoveValidator {
      */
     WorldElement objectAt(Vector2d position);
 
-    List<WorldElement> getElements();
+    ArrayList<Animal> getElements();
     List<Animal> getAnimals();
     Boundary getCurrentBounds();
     void registerMapChangeListener(MapChangeListener mapChangeListener);

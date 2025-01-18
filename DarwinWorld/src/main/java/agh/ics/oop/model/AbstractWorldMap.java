@@ -9,8 +9,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int height;
     int numberOfGrasses;
 
-    Map<Vector2d, ArrayList<Animal>> animals2 = new HashMap<>();
-    Map<Vector2d, Animal> animals = new HashMap<>();
+    AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
     List<Animal> animalList = new ArrayList<>();
@@ -26,9 +25,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void place(Animal animal) throws IncorrectPositionException {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animal.getPosition())) {
-            animals.put(animalPosition, animal);
-            ArrayList<Animal> animalsAtPosition = animals2.getOrDefault(animalPosition, new ArrayList<Animal>());
-//            animals2.put(animalPosition, );
+//            animals.put(animalPosition, animal);
+            animals.addAnimal(animal);
 
             animalList.add(animal);
             mapChanged("Animal placed on " + animalPosition);
@@ -50,7 +48,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void killAnimal(Animal animal) {
-        animals.remove(animal.getPosition());
+        animals.removeAnimal(animal);
         animalList.remove(animal);
         mapChanged("Animal killed on " + animal.getPosition());
     }
@@ -60,16 +58,21 @@ public abstract class AbstractWorldMap implements WorldMap {
         newPosition = normaliseNewPosition(newPosition);
 
         if (this.canMoveTo(newPosition)) {
-            animals.remove(animal.getPosition());
+//            animals.remove(animal.getPosition());
+            animals.removeAnimal(animal);
             animal.move(newPosition);
-            animals.put(animal.getPosition(), animal);
+//            animals.put(animal.getPosition(), animal);
+            animals.addAnimal(animal);
             mapChanged("Animal moved to " + animal.getPosition());
         }
 
     }
 
-    public List<WorldElement> getElements() {
-        return new ArrayList<>(animals.values());
+//    public List<WorldElement> getElements() {
+//        return new ArrayList<>(animals.values());
+//    }
+    public ArrayList<Animal> getElements() {
+        return animals.getAllAnimals();
     }
 
     public String toString(){
@@ -91,10 +94,21 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
+    public ArrayList<WorldElement> objectsAt(Vector2d position) {
+        ArrayList<WorldElement> objects = new ArrayList<>();
+        objects.add((WorldElement) animals.getAnimalsAtPosition(position));
+        objects.add(grasses.get(position));
+        return objects;
+    }
+
     public WorldElement objectAt(Vector2d position) {
-        if (animals.get(position) != null) {
-            return animals.get(position);
+
+        if (!animals.getAnimalsAtPosition(position).isEmpty()) {
+            return animals.getAnimalsAtPosition(position).getFirst();
         }
+//        if (animals.get(position) != null) {
+//            return animals.get(position);
+//        }
         if (grasses.get(position) != null) {
             return grasses.get(position);
         }

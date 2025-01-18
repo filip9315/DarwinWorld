@@ -31,8 +31,8 @@ public class WaterMap extends AbstractWorldMap {
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        if (animals.get(position) != null) {
-            return animals.get(position);
+        if (!animals.getAnimalsAtPosition(position).isEmpty()) {
+            return animals.getAnimalsAtPosition(position).getFirst();
         }
         if (grasses.get(position) != null) {
             return grasses.get(position);
