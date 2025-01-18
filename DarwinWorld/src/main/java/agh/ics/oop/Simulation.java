@@ -59,10 +59,11 @@ public class Simulation implements Runnable {
                 map.move(animal);
             }
 
-            System.out.println(map);
+
 
             map.accept(visitor);
             map.updateWorldMap();
+            System.out.println(map);
             try {
                 Thread.sleep(400);
             } catch (InterruptedException e) {

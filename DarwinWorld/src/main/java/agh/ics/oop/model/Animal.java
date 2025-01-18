@@ -89,12 +89,12 @@ public class Animal implements WorldElement {
         return numOfChildren;
     }
 
-//    public Animal procreate(Animal animal) {
-//        if (this.canProcreate() && animal.canProcreate()) {
-//
-//        }
-//        return this;
-//    }
+    public Animal procreate(Animal animal) {
+        if (this.canProcreate() && animal.canProcreate()) {
+
+        }
+        return this;
+    }
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);

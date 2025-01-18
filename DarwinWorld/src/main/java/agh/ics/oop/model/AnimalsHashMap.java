@@ -1,8 +1,6 @@
 package agh.ics.oop.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AnimalsHashMap {
@@ -16,12 +14,19 @@ public class AnimalsHashMap {
         return (ArrayList<Vector2d>) animals.keySet().stream().filter(position -> !animals.get(position).isEmpty()).collect(Collectors.toList());
     }
 
-    public ArrayList<WorldElement> getAllAnimals() {
+    public ArrayList<Animal> getAllAnimals() {
+        return animals.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<WorldElement> getAllAnimalsAsWorldElements() {
         return animals.values().stream()
                 .flatMap(List::stream)
                 .map(animal -> (WorldElement) animal)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
 
     public void addAnimal(Animal animal) {
         Vector2d position = animal.getPosition();
@@ -36,17 +41,20 @@ public class AnimalsHashMap {
         animals.getOrDefault(position, new ArrayList<Animal>()).remove(animal);
     }
 
-    public List<Animal> sortAnimalsAtGivenPosition(Vector2d position) {
-        List<Animal> sortedAnimals = getAnimalsAtPosition(position);
-        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getEnergy)).toList();
+    public ArrayList<Animal> sortAnimalsAtGivenPosition(Vector2d position) {
+        ArrayList<Animal> sortedAnimals = getAnimalsAtPosition(position);
+        if (sortedAnimals.size() < 2) {
+            return sortedAnimals;
+        }
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getEnergy)).collect(Collectors.toCollection(ArrayList::new));
         if (sortedAnimals.get(0).getEnergy() != sortedAnimals.get(1).getEnergy()) {
             return sortedAnimals;
         }
-        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getAge)).toList();
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getAge)).collect(Collectors.toCollection(ArrayList::new));
         if (sortedAnimals.get(0).getAge() != sortedAnimals.get(1).getAge()) {
             return sortedAnimals;
         }
-        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getNumOfChildren)).toList();
+        sortedAnimals.stream().sorted(Comparator.comparingInt(Animal::getNumOfChildren)).collect(Collectors.toCollection(ArrayList::new));
         if (sortedAnimals.get(0).getNumOfChildren() != sortedAnimals.get(1).getNumOfChildren()) {
             return sortedAnimals;
         }

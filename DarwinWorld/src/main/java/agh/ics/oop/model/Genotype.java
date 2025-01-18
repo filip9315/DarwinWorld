@@ -34,6 +34,10 @@ public class Genotype {
         return genesList.get(currentGeneIndex);
     }
 
+//    public int createGenotype(){
+//
+//    }
+
 
 
     public void mutate(){

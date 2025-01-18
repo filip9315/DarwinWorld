@@ -56,12 +56,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         return position;
     }
 
-    public void killAnimal(Animal animal) {
-        animals.removeAnimal(animal);
-        animalList.remove(animal);
-        mapChanged("Animal killed on " + animal.getPosition());
-    }
-
     public void move(Animal animal) {
         Vector2d newPosition = newAnimalPosition(animal);
         newPosition = normaliseNewPosition(newPosition);
@@ -82,7 +76,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 //    }
     public ArrayList<WorldElement> getElements() {
         ArrayList<WorldElement> elements = new ArrayList<>();
-        elements.addAll(animals.getAllAnimals());
+        elements.addAll(animals.getAllAnimalsAsWorldElements());
         elements.addAll(grasses.values());
 
         return elements;
@@ -172,10 +166,13 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void animalsConsumeGrass () {
-        for (Vector2d grassPosition : grasses.keySet()) {
+        Set<Vector2d> greassesPositions = grasses.keySet();
+        for (Vector2d grassPosition : greassesPositions) {
             List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(grassPosition);
-            sortedAnimals.getFirst().consumeGrass();
-            removeGrass(grassPosition);
+            if (!sortedAnimals.isEmpty()) {
+                sortedAnimals.getFirst().consumeGrass();
+                removeGrass(grassPosition);
+            }
         }
     }
 
@@ -183,7 +180,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         for (ArrayList<Animal> animalsList : animals.values()) {
             if (animalsList.size() > 1) {
                 List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(animalsList.getFirst().getPosition());
-
+                Animal newAnimal = sortedAnimals.getFirst().procreate(sortedAnimals.get(1));
             }
         }
     }
