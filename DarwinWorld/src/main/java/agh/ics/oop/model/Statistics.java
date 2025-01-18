@@ -13,7 +13,8 @@ public class Statistics {
     String averageNumberOfChildren;
 
     WorldMap map;
-    List<String> dataList = new ArrayList<>();
+    List<String> labels = new ArrayList<>();
+    List<String> data = new ArrayList<>();
 
     public Statistics(WorldMap map) {
         this.map = map;
@@ -21,15 +22,39 @@ public class Statistics {
 
     public RowData getRow(int i){
 
+        if(i < labels.size() && i < data.size()){
+            return new RowData(labels.get(i), data.get(i));
+        }
+        return new RowData("No data", "No data");
     }
 
-    void updateStatistics() {
+    public void updateStatistics() {
+        labels.clear();
+        data.clear();
+
         numberOfAnimals = "" + map.getAnimals().size();
         numberOfGrasses = "" + map.getElements().stream().filter(worldElement -> worldElement instanceof Grass).count();
-        numberOfEmptyTiles = "" + (map.getElements().size() - map.getElements().stream().filter(worldElement -> worldElement instanceof Grass).count());
+        numberOfEmptyTiles = "" + ((long) map.getMapWidth() * map.getMapHeight() - (long) map.getElements().size());
         mostCommonGenotype = getMostCommonGenotype();
         averageEnergy = getAverageEnergy();
+        averageLifetime = getAverageLifetime();
+        averageNumberOfChildren = "Todo";
 
+        labels.add("numberOfAnimals");
+        labels.add("numberOfGrasses");
+        labels.add("numberOfEmptyTiles");
+        labels.add("mostCommonGenotype");
+        labels.add("averageEnergy");
+        labels.add("averageLifetime");
+        labels.add("averageNumberOfChildren");
+
+        data.add(numberOfAnimals);
+        data.add(numberOfGrasses);
+        data.add(numberOfEmptyTiles);
+        data.add(mostCommonGenotype);
+        data.add(averageEnergy);
+        data.add(averageLifetime);
+        data.add(averageNumberOfChildren);
     }
 
     String getMostCommonGenotype() {
@@ -63,7 +88,11 @@ public class Statistics {
 
 
     String getAverageLifetime() {
-
+        double sum = 0;
+        for (Animal animal : map.getAnimals()) {
+            sum += animal.getAge();
+        }
+        return String.format("%.2f", sum / map.getAnimals().size());
     }
 
 

@@ -69,4 +69,8 @@ public class Genotype {
     public int hashCode(){
         return Objects.hash(genesList);
     }
+
+    public String toString(){
+        return genesList.toString();
+    }
 }

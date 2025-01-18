@@ -8,17 +8,25 @@
         <VBox alignment="CENTER">
             <Label fx:id="infoLabel" />
             <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true" VBox.vgrow="ALWAYS" />
-         <Button mnemonicParsing="false" text="Pause" />
+         <Button mnemonicParsing="false" text="Pause" onAction="#pause"/>
         </VBox>
     </right>
 
     <left>
         <VBox spacing="10" alignment="CENTER">
             <Label text="Simulation Data" />
-            <TableView fx:id="tableView">
+            <TableView fx:id="simulationStatsTable" prefWidth="300">
                 <columns>
-                    <TableColumn fx:id="column1" text="Column 1" />
-                    <TableColumn fx:id="column2" text="Column 2" />
+                    <TableColumn fx:id="column1" text="Column 1" prefWidth="150" />
+                    <TableColumn fx:id="column2" text="Column 2" prefWidth="150" />
+                </columns>
+            </TableView>
+
+            <Label text="Simulation Data" />
+            <TableView fx:id="animalStatsTable" prefWidth="300">
+                <columns>
+                    <TableColumn fx:id="animalStatsColumn1" text="Column 1" prefWidth="150" />
+                    <TableColumn fx:id="animalStatsColumn2" text="Column 2" prefWidth="150" />
                 </columns>
             </TableView>
         </VBox>

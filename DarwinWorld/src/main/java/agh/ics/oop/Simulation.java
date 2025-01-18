@@ -21,7 +21,6 @@ public class Simulation implements Runnable {
         this.map = map;
         this.simulationLength = simulationLength;
         this.genotypeLength = genotypeLength;
-
         generatePositions(numberOfAnimals);
 
         //TODO usunąć to (konstruktor animala się zmienił):
@@ -58,11 +57,9 @@ public class Simulation implements Runnable {
             for (Animal animal : map.getAnimals()) {
                 map.move(animal);
             }
-
-
-
             map.accept(visitor);
             map.updateWorldMap();
+            map.getStatistics().updateStatistics();
             System.out.println(map);
             try {
                 Thread.sleep(400);

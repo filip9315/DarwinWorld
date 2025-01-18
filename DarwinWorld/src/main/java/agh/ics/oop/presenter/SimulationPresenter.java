@@ -24,9 +24,10 @@ import java.util.stream.Stream;
 
 public class SimulationPresenter implements MapChangeListener {
 
-    public TableView tableView;
     public TableColumn column1;
     public TableColumn column2;
+    public TableView simulationStatsTable;
+    public TableView animalStatsTable;
     WorldMap map;
     double tileWidth = 0;
     double tileHeight = 0;
@@ -43,24 +44,31 @@ public class SimulationPresenter implements MapChangeListener {
     private GridPane mapGrid;
 
 
-
     @FXML
     public void initialize() {
         column1.setCellValueFactory(new PropertyValueFactory<>("column1"));
         column2.setCellValueFactory(new PropertyValueFactory<>("column2"));
+    }
 
-        for (int i = 1; i <= 10; i++) {
-            tableView.getItems().add();
+
+    public void pause(){
+
+    }
+
+
+    //=========
+    //==Tables==
+    //==========
+    void drawSimulationStats(){
+        simulationStatsTable.getItems().clear();
+        for (int i = 0; i < 7; i++) {
+            simulationStatsTable.getItems().add(map.getStatistics().getRow(i));
         }
     }
-    
-    
-    
-    
+
     //===========
     //=== Map ===
     //===========
-    
     public void setMap(WorldMap map) {
         this.map = map;
     }
@@ -96,6 +104,8 @@ public class SimulationPresenter implements MapChangeListener {
                 .filter(worldElement -> !(map.objectAt(worldElement.getPosition()) instanceof Animal))
                 .forEach(this::drawWorldElement);
 
+
+
     }
 
     private void drawWorldElement(WorldElement element) {
@@ -117,6 +127,7 @@ public class SimulationPresenter implements MapChangeListener {
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(this::drawMap);
+        Platform.runLater(this::drawSimulationStats);
         this.message = message;
     }
 

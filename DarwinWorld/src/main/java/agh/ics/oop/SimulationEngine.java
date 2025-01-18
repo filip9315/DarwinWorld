@@ -38,7 +38,6 @@ public class SimulationEngine {
 
             runAsyncInThreadPool(simulation);
 
-
             Scene newScene = new Scene(root);
             newStage.setScene(newScene);
 

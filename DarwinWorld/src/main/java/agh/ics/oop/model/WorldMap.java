@@ -59,4 +59,5 @@ public interface WorldMap extends MoveValidator {
     void updateWorldMap();
     int getMapWidth();
     int getMapHeight();
+    Statistics getStatistics();
 }
