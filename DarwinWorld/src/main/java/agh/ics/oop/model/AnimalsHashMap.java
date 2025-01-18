@@ -17,8 +17,10 @@ public class AnimalsHashMap {
     }
 
     public ArrayList<WorldElement> getAllAnimals() {
-        ArrayList<Animal> animalsList = (ArrayList<Animal>)  animals.values().stream().flatMap(List::stream).toList();
-        return new ArrayList<>(animalsList);
+        return animals.values().stream()
+                .flatMap(List::stream)
+                .map(animal -> (WorldElement) animal)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void addAnimal(Animal animal) {

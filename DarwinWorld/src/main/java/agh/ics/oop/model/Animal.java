@@ -1,6 +1,9 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.World;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +74,13 @@ public class Animal implements WorldElement {
     public int getActiveGene() {
         return genotype.useGenotype();
     }
+
+    public Node getShape(double width, double height) {
+        double radius = Math.min(width, height)/2;
+        Circle circle = new Circle(radius);
+        circle.setFill(Color.BROWN);
+        return circle;
+    }
+
 
 }
