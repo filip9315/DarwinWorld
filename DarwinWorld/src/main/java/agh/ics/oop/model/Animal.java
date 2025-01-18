@@ -1,11 +1,18 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.World;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Animal implements WorldElement {
 
     MapDirection direction;
     private Vector2d position;
     int energy;
     Genotype genotype;
+    WorldMap map;
 
     public Vector2d getPosition() {
         return position;
@@ -19,11 +26,34 @@ public class Animal implements WorldElement {
         this.direction = direction;
     }
 
-    public Animal(Vector2d position, int energy, Genotype genotype) {
+    public Animal(Vector2d position, int energy, Genotype genotype, WorldMap map) {
         this.direction = MapDirection.NORTH;
         this.position = position;
         this.energy = energy;
         this.genotype = genotype;
+        this.map = map;
+    }
+
+    public Animal(Vector2d position, int energy, int genotypeLength, WorldMap map) {
+        List<Integer> genes = new ArrayList<>();
+        Random r = new Random();
+        for (int i = 0; i < genotypeLength; i++) {
+            genes.add(r.nextInt(7 + 1));
+        }
+
+        this.direction = MapDirection.NORTH;
+        this.position = position;
+        this.energy = energy;
+        this.genotype = new Genotype(genes);
+        this.map = map;
+    }
+
+    public void consumeGrass() {
+        this.energy += map.getGrassEnergy();
+    }
+
+    public boolean canProcreate(){
+        return this.energy >= map.getProcretionEnergy();
     }
 
     public String toString() {

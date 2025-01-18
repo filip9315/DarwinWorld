@@ -44,7 +44,7 @@ public class WaterMapTest {
     public void testAnimalPlacement() throws IncorrectPositionException {
         WaterMap waterMap = new WaterMap(20, 20, 1, 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
-        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype);
+        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype, waterMap);
         waterMap.place(animal);
 
         assertEquals(new Vector2d(5, 5), animal.getPosition());
@@ -55,7 +55,7 @@ public class WaterMapTest {
     public void testAnimalMovementDirection() throws IncorrectPositionException {
         WaterMap waterMap = new WaterMap(20, 20, 1, 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
-        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype);
+        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype, waterMap);
         waterMap.place(animal);
 
         waterMap.move(animal);
@@ -70,7 +70,7 @@ public class WaterMapTest {
     public void testAnimalAvoidsWater() throws IncorrectPositionException {
         WaterMap waterMap = new WaterMap(20, 20, 1, 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
-        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype);
+        Animal animal = new Animal(new Vector2d(5, 5), 3, genotype, waterMap);
         waterMap.place(animal);
 
         for (Vector2d waterPosition : waterMap.waters.keySet()) {

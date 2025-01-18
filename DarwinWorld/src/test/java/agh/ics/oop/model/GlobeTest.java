@@ -18,7 +18,7 @@ public class GlobeTest {
 
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
 
-        Animal animal = new Animal(new Vector2d(0, 0), 3, genotype);
+        Animal animal = new Animal(new Vector2d(0, 0), 3, genotype, map);
 
         map.move(animal);
         map.move(animal);
@@ -33,7 +33,7 @@ public class GlobeTest {
 
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
 
-        Animal animal = new Animal(new Vector2d(3, 4), 3, genotype);
+        Animal animal = new Animal(new Vector2d(3, 4), 3, genotype, map);
 
         map.move(animal);
         map.move(animal);

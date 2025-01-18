@@ -29,7 +29,7 @@ public class Simulation implements Runnable {
         Genotype genotype = new Genotype(genesList);
 
         for (Vector2d position : positions) {
-            Animal tmp = new Animal(position, initEnergy, genotype);
+            Animal tmp = new Animal(position, initEnergy, genotype, map);
             try {
                 map.place(tmp);
             } catch(IncorrectPositionException e) {
@@ -58,11 +58,12 @@ public class Simulation implements Runnable {
             for (Animal animal : map.getAnimals()) {
                 map.move(animal);
             }
+
             System.out.println(map);
 
             map.accept(visitor);
+            map.updateWorldMap();
         }
-
     }
 
 }
