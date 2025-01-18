@@ -34,9 +34,25 @@ public class Genotype {
         return genesList.get(currentGeneIndex);
     }
 
-//    public int createGenotype(){
-//
-//    }
+    public Genotype(Animal animal1, Animal animal2){
+        numOfGenes = animal1.getGenotype().getGenesList().size();
+        List<Integer> newGenesList = new ArrayList<>();
+        if (Math.random() < 0.5) {
+            double energyRatio = (double) animal1.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
+            int partitionIndex = (int) (numOfGenes * energyRatio);
+            newGenesList.addAll(animal1.getGenotype().getGenesList().subList(0, partitionIndex));
+            newGenesList.addAll(animal2.getGenotype().getGenesList().subList(partitionIndex, numOfGenes));
+        } else {
+            double energyRatio = (double) animal2.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
+            int partitionIndex = (int) (numOfGenes * energyRatio);
+            newGenesList.addAll(animal2.getGenotype().getGenesList().subList(0, partitionIndex));
+            newGenesList.addAll(animal1.getGenotype().getGenesList().subList(partitionIndex, numOfGenes));
+        }
+
+        this.minGenesToMutate = animal1.getGenotype().minGenesToMutate;
+        this.maxGenesToMutate = animal1.getGenotype().maxGenesToMutate;
+        this.mutate();
+    }
 
 
 
@@ -54,5 +70,9 @@ public class Genotype {
             int newGene = (int) Math.round(Math.random() * numOfGenes + 1);
                 genesList.set(geneIndex, newGene);
         }
+    }
+
+    public List<Integer> getGenesList() {
+        return genesList;
     }
 }

@@ -92,7 +92,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public List<Animal> getAnimals() {
-        return animalList;
+        return animals.getAllAnimals();
     }
 
     public void mapChanged(String message){
@@ -166,23 +166,35 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void animalsConsumeGrass () {
-        Set<Vector2d> greassesPositions = grasses.keySet();
-        for (Vector2d grassPosition : greassesPositions) {
+        Set<Vector2d> grassesPositions = grasses.keySet();
+        List<Vector2d> grassesToRemove = new ArrayList<>();
+        for (Vector2d grassPosition : grassesPositions) {
             List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(grassPosition);
             if (!sortedAnimals.isEmpty()) {
                 sortedAnimals.getFirst().consumeGrass();
-                removeGrass(grassPosition);
+                grassesToRemove.add(grassPosition);
             }
+        }
+        for (Vector2d grassPosition : grassesToRemove) {
+            removeGrass(grassPosition);
         }
     }
 
     public void animalsProcreate() {
+        List<Animal> animalsToAdd = new ArrayList<>();
+
         for (ArrayList<Animal> animalsList : animals.values()) {
             if (animalsList.size() > 1) {
                 List<Animal> sortedAnimals = animals.sortAnimalsAtGivenPosition(animalsList.getFirst().getPosition());
-                Animal newAnimal = sortedAnimals.getFirst().procreate(sortedAnimals.get(1));
+                Animal animal1 = sortedAnimals.getFirst();
+                Animal animal2 = sortedAnimals.get(1);
+                if (animal1.canProcreate() && animal2.canProcreate()) {
+                    Animal newAnimal = animal1.procreate(animal2);
+                    animalsToAdd.add(newAnimal);
+                }
             }
         }
+        animalList.addAll(animalsToAdd);
     }
 
     public void removeDeadAnimals() {
