@@ -3,20 +3,22 @@ package agh.ics.oop.model;
 import java.util.List;
 
 public class Genotype {
-    public int activeGene = 0;
+    public int activeGeneIndex = 0;
+    public int activeGene;
     List<Integer> genesList;
     int numOfGenes;
 
     public Genotype(List<Integer> genesList) {
         this.genesList = genesList;
         this.numOfGenes = genesList.size();
+        activeGene = genesList.getFirst();
     }
 
     public int useGenotype(){
-        int currentGene = activeGene;
-        activeGene++;
-        activeGene %= numOfGenes;
-        return currentGene;
+        int currentGeneIndex = activeGeneIndex;
+        activeGeneIndex++;
+        activeGeneIndex %= numOfGenes;
+        return genesList.get(currentGeneIndex);
     }
 
     public void mutate(){

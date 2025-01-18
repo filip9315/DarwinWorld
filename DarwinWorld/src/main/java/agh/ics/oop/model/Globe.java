@@ -12,6 +12,17 @@ public class Globe extends AbstractWorldMap {
         placeGrass(numberOfGrasses);
     }
 
+    @Override
+    public Vector2d normaliseNewPosition(Vector2d position) {
+        if (position.getX() >= width) {
+            return new Vector2d(position.getX() - width, position.getY());
+        }
+        if (position.getY() <= -1) {
+            return new Vector2d(position.getX() + width, position.getY());
+        }
+        return position;
+    }
+
     public boolean canMoveTo(Vector2d position) {
         int top = getCurrentBounds().upperRight().getY();
         int bottom = getCurrentBounds().lowerLeft().getY();

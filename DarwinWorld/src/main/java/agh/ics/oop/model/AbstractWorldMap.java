@@ -9,6 +9,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int height;
     int numberOfGrasses;
 
+    Map<Vector2d, ArrayList<Animal>> animals2 = new HashMap<>();
     Map<Vector2d, Animal> animals = new HashMap<>();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
@@ -23,26 +24,44 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public void place(Animal animal) throws IncorrectPositionException {
+        Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animal.getPosition())) {
-            animals.put(animal.getPosition(), animal);
+            animals.put(animalPosition, animal);
+            ArrayList<Animal> animalsAtPosition = animals2.getOrDefault(animalPosition, new ArrayList<Animal>());
+//            animals2.put(animalPosition, );
+
             animalList.add(animal);
-            mapChanged("Animal placed on " + animal.getPosition());
+            mapChanged("Animal placed on " + animalPosition);
         }else{
-            throw new IncorrectPositionException(animal.getPosition());
+            throw new IncorrectPositionException(animalPosition);
         }
     }
 
-    public void move(Animal animal) {
+    public Vector2d newAnimalPosition(Animal animal) {
         Vector2d position = animal.getPosition();
-
         MapDirection newAnimalDirection = animal.getDirection().rotate(animal.getActiveGene());
         animal.setDirection(newAnimalDirection);
-        Vector2d tmp = animal.getPosition().add(animal.getDirection().toUnitVector());
+        Vector2d newPosition = animal.getPosition().add(animal.getDirection().toUnitVector());
+        return newPosition;
+    }
 
+    public Vector2d normaliseNewPosition(Vector2d position) {
+        return position;
+    }
 
-        if (this.canMoveTo(tmp)) {
+    public void killAnimal(Animal animal) {
+        animals.remove(animal.getPosition());
+        animalList.remove(animal);
+        mapChanged("Animal killed on " + animal.getPosition());
+    }
+
+    public void move(Animal animal) {
+        Vector2d newPosition = newAnimalPosition(animal);
+        newPosition = normaliseNewPosition(newPosition);
+
+        if (this.canMoveTo(newPosition)) {
             animals.remove(animal.getPosition());
-            animal.move(tmp);
+            animal.move(newPosition);
             animals.put(animal.getPosition(), animal);
             mapChanged("Animal moved to " + animal.getPosition());
         }

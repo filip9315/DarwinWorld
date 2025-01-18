@@ -45,7 +45,8 @@ public class WaterMap extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(getCurrentBounds().lowerLeft()) && position.precedes(getCurrentBounds().upperRight());
+        return position.follows(getCurrentBounds().lowerLeft()) && position.precedes(getCurrentBounds().upperRight())
+                && !waters.containsKey(position);
 
     }
 

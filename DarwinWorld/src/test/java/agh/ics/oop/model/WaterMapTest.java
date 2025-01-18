@@ -74,7 +74,7 @@ public class WaterMapTest {
         waterMap.place(animal);
 
         for (Vector2d waterPosition : waterMap.waters.keySet()) {
-            animal.move(waterPosition);
+            waterMap.move(animal);
             assertNotEquals(waterPosition, animal.getPosition());
             assertFalse(waterMap.objectAt(waterPosition) instanceof Animal);
         }
