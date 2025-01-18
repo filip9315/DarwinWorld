@@ -12,30 +12,13 @@ public class SimulationEngine {
     private final List<Thread> threads = new ArrayList<>();
     ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-    public SimulationEngine(List<Simulation> simulations) {
-        this.simulations = simulations;
+    public SimulationEngine() {
+
     }
 
-    public void awaitSimulationsEnd() {
-        try{
-            for (Thread thread : threads) {
-                thread.join();
-            }
-            executorService.shutdown();
-            if(!executorService.awaitTermination(100, TimeUnit.SECONDS)){
-                System.out.println("Simulation threads did not terminate");
-                executorService.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void runAsyncInThreadPool(){
-        for (Simulation simulation : simulations) {
-            executorService.submit(simulation);
-        }
-        awaitSimulationsEnd();
+    public void runAsyncInThreadPool(Simulation simulation) {
+        executorService.submit(simulation);
     }
 
 }

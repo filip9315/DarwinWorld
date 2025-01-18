@@ -11,18 +11,22 @@ public class Simulation implements Runnable {
     List<MoveDirection> directions;
     int numberOfAnimals;
     int simulationLength;
-    Genotype genotype;
+    int genotypeLength;
 
     WorldMap map;
     Visitor visitor = new MapActionVisitor();
 
-    public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, Genotype genotype, int simulationLength) {
+    public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, int genotypeLength, int simulationLength) {
         this.numberOfAnimals = numberOfAnimals;
         this.map = map;
         this.simulationLength = simulationLength;
-        this.genotype = genotype;
+        this.genotypeLength = genotypeLength;
 
         generatePositions(numberOfAnimals);
+
+        //TODO usunąć to (konstruktor animala się zmienił:
+        List<Integer> genesList = List.of(1, 2, 3, 4, 5, 6, 7, 2, 0, 1);
+        Genotype genotype = new Genotype(genesList);
 
         for (Vector2d position : positions) {
             Animal tmp = new Animal(position, initEnergy, genotype);

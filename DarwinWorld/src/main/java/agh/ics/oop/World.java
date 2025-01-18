@@ -10,20 +10,13 @@ public class World {
         Globe globe = new Globe(10, 10, 3);
         WaterMap waterMap = new WaterMap(10, 10, 2, 3);
 
-        List<Vector2d> positions = List.of(new Vector2d(3,3), new Vector2d(3,4));
-        List<MoveDirection> directions = OptionsParser.parse(args);
 
-        List<Integer> genesList = List.of(1, 2, 3, 4, 5, 6, 7, 2, 0, 1);
 
-        Genotype genotype = new Genotype(genesList);
-        Genotype genotype2 = new GenotypeSlightCorrection(genesList);
+        Simulation simulation = new Simulation(3, waterMap, 10, 5, 3);
 
-        Simulation simulation = new Simulation(3, waterMap, 10, genotype, 3);
 
-        List<Simulation> simulations = List.of(simulation);
-
-        SimulationEngine simulationEngine = new SimulationEngine(simulations);
-        simulationEngine.runAsyncInThreadPool();
+        SimulationEngine simulationEngine = new SimulationEngine();
+        simulationEngine.runAsyncInThreadPool(simulation);
     }
 
 }
