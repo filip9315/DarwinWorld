@@ -46,7 +46,7 @@ public interface WorldMap extends MoveValidator {
      */
     WorldElement objectAt(Vector2d position);
 
-    ArrayList<Animal> getElements();
+    List<WorldElement> getElements();
     List<Animal> getAnimals();
     Boundary getCurrentBounds();
     void registerMapChangeListener(MapChangeListener mapChangeListener);
@@ -54,4 +54,7 @@ public interface WorldMap extends MoveValidator {
     UUID getId();
     List<Vector2d> getLivableTiles();
     void accept(Visitor visitor);
+    int getGrassEnergy();
+    int getProcretionEnergy();
+    void updateWorldMap();
 }

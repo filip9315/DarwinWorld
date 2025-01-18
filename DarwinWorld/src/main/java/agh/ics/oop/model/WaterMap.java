@@ -60,6 +60,16 @@ public class WaterMap extends AbstractWorldMap {
         }
     }
 
+    @Override
+    public ArrayList<WorldElement> getElements() {
+        ArrayList<WorldElement> elements = new ArrayList<>();
+        elements.addAll(animals.getAllAnimals());
+        elements.addAll(grasses.values());
+        elements.addAll(waters.values());
+
+        return elements;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }

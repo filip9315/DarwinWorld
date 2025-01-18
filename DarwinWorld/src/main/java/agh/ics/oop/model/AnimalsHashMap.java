@@ -16,8 +16,9 @@ public class AnimalsHashMap {
         return (ArrayList<Vector2d>) animals.keySet().stream().filter(position -> !animals.get(position).isEmpty()).collect(Collectors.toList());
     }
 
-    public ArrayList<Animal> getAllAnimals() {
-        return (ArrayList<Animal>) animals.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    public ArrayList<WorldElement> getAllAnimals() {
+        ArrayList<Animal> animalsList = (ArrayList<Animal>)  animals.values().stream().flatMap(List::stream).toList();
+        return new ArrayList<>(animalsList);
     }
 
     public void addAnimal(Animal animal) {

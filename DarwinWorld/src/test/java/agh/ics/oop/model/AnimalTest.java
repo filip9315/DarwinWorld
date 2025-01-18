@@ -14,8 +14,9 @@ public class AnimalTest {
 
     @Test
     public void testAnimalInitialization() {
+        Globe globe = new Globe(1, 1 , 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
-        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype);
+        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
         assertEquals(new Vector2d(10, 10), animal.getPosition());
         assertEquals(MapDirection.NORTH, animal.getDirection());
@@ -24,8 +25,9 @@ public class AnimalTest {
 
     @Test
     public void testAnimalSetDirection() {
+        Globe globe = new Globe(1, 1 , 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
-        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype);
+        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
         animal.setDirection(MapDirection.EAST);
         assertEquals(MapDirection.EAST, animal.getDirection());
@@ -36,8 +38,9 @@ public class AnimalTest {
 
     @Test
     public void testAnimalActiveGene() {
+        Globe globe = new Globe(1, 1 , 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
-        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype);
+        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
         assertEquals(2, animal.getActiveGene());
         assertEquals(1, animal.getActiveGene());
@@ -47,8 +50,9 @@ public class AnimalTest {
 
     @Test
     public void testAnimalMovement() {
+        Globe globe = new Globe(1, 1 , 0);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
-        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype);
+        Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
         animal.move(new Vector2d(11, 10));
         assertEquals(new Vector2d(11, 10), animal.getPosition());

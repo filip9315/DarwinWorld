@@ -8,15 +8,22 @@ public abstract class AbstractWorldMap implements WorldMap {
     int width;
     int height;
     int numberOfGrasses;
-    int grassEnergy;
-    int procreationEnergy;
-
+    int grassEnergy = 1;
+    int procreationEnergy = 100;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
 
     List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
     UUID id;
+
+    public int getGrassEnergy() {
+        return grassEnergy;
+    }
+
+    public int getProcretionEnergy() {
+        return procreationEnergy;
+    }
 
     abstract public boolean canMoveTo(Vector2d position);
 
@@ -73,8 +80,12 @@ public abstract class AbstractWorldMap implements WorldMap {
 //    public List<WorldElement> getElements() {
 //        return new ArrayList<>(animals.values());
 //    }
-    public ArrayList<Animal> getElements() {
-        return animals.getAllAnimals();
+    public ArrayList<WorldElement> getElements() {
+        ArrayList<WorldElement> elements = new ArrayList<>();
+        elements.addAll(animals.getAllAnimals());
+        elements.addAll(grasses.values());
+
+        return elements;
     }
 
     public String toString(){
@@ -148,5 +159,23 @@ public abstract class AbstractWorldMap implements WorldMap {
         for(Vector2d grassPosition : randomPositionsGenerator) {
             grasses.put(grassPosition, new Grass(grassPosition));
         }
+    }
+
+    public void updateWorldMap(){
+        animalsFeed();
+        animalsProcreate();
+        removeDeadAnimals();
+    }
+
+    public void animalsFeed () {
+
+    }
+
+    public void animalsProcreate() {
+
+    }
+
+    public void removeDeadAnimals() {
+
     }
 }
