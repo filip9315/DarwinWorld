@@ -4,20 +4,19 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Animal implements WorldElement {
 
+    int ID;
+    static int ID_count = 0;
     MapDirection direction;
     private Vector2d position;
     int energy;
-    int age;
+    int age = 0;
     int numOfChildren;
     ArrayList<Animal> children = new ArrayList<>();
     int numberOfEatenGrasses = 0;
-    int numberOfDays = 0;
     int dayOfDeath = -1;
     Genotype genotype;
     WorldMap map;
@@ -48,9 +47,27 @@ public class Animal implements WorldElement {
     }
 
     public int getNumberOfDescendants() {
-        int numOfDescendants = getNumberOfCildren();
+        Set<Integer> visited = new HashSet<>();
+        int numOfDescendants = 0;
+        for (Animal animal : children) {
+            if (!visited.contains(animal.ID)) {
+                visited.add(animal.ID);
+                numOfDescendants++;
+            }
+        }
         for (Animal child : children) {
-            numOfDescendants += child.getNumberOfDescendants();
+            numOfDescendants += child.getNumberOfDescendants(visited, numOfDescendants);
+        }
+        return numOfDescendants;
+    }
+
+    public int getNumberOfDescendants(Set<Integer> visited, int numOfDescendants) {
+        for (Animal child : children) {
+            if (!visited.contains(child.ID)) {
+                visited.add(child.ID);
+                numOfDescendants++;
+                numOfDescendants += child.getNumberOfDescendants();
+            }
         }
         return numOfDescendants;
     }
@@ -87,20 +104,13 @@ public class Animal implements WorldElement {
         this.numOfChildren = numOfChildren;
     }
 
-    public int getNumberOfCildren() {
-        return children.size();
-    }
-
-    public void setNumberOfDays(int numberOfDays) {
-        this.numberOfDays = numberOfDays;
-    }
-
     public Animal(Vector2d position, int energy, Genotype genotype, WorldMap map) {
         this.direction = MapDirection.NORTH;
         this.position = position;
         this.energy = energy;
         this.genotype = genotype;
         this.map = map;
+        this.ID = ID_count++;
     }
 
     public Animal(Vector2d position, int energy, int genotypeLength, WorldMap map) {
@@ -115,6 +125,7 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.genotype = new Genotype(genes);
         this.map = map;
+        this.ID = ID_count++;
     }
 
     public void consumeGrass() {
@@ -147,7 +158,7 @@ public class Animal implements WorldElement {
     }
 
     public void die() {
-        setDayOfDeath(this.getAge());
+        setDayOfDeath(map.getDay());
     }
 
     public void setEnergy(int energy) {

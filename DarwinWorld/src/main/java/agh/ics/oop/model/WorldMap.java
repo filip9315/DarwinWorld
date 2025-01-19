@@ -60,4 +60,6 @@ public interface WorldMap extends MoveValidator {
     int getMapHeight();
     SimulationStatistics getStatistics();
     int getProcreationEnergy();
+    int getDay();
+    void updateDay();
 }
