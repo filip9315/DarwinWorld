@@ -18,7 +18,7 @@ public class Globe extends AbstractWorldMap {
         if (position.getX() >= width) {
             return new Vector2d(position.getX() - width, position.getY());
         }
-        if (position.getY() <= -1) {
+        if (position.getX() <= -1) {
             return new Vector2d(position.getX() + width, position.getY());
         }
         return position;
