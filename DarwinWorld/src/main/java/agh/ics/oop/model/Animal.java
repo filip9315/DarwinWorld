@@ -119,9 +119,14 @@ public class Animal implements WorldElement {
         this.direction = MapDirection.NORTH;
         this.position = position;
         this.energy = energy;
-        this.genotype = new Genotype(genes);
         this.map = map;
         this.ID = ID_count++;
+
+        if(map.getMutationType() == 0){
+            this.genotype = new Genotype(genes);
+        } else {
+            this.genotype = new GenotypeSlightCorrection(genes);
+        }
     }
 
     public void consumeGrass() {

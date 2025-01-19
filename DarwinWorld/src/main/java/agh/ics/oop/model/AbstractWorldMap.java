@@ -17,6 +17,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int maxMutations;
     int genotypeLength;
     int initialEnergy;
+    int mutationType;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
     ArrayList<Animal> deadAnimals = new ArrayList<>();
@@ -29,6 +30,10 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public int getDay() {
         return day;
+    }
+
+    public int getMutationType() {
+        return mutationType;
     }
 
     public void updateDay() {

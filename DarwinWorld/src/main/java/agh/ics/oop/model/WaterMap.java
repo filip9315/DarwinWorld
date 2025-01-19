@@ -8,7 +8,7 @@ public class WaterMap extends AbstractWorldMap {
     Map<Vector2d, Tile> waters = new HashMap<>();
     int numberOfLakes;
 
-    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed, int energyUsedToProcreate, int energyToBeAbleToProcreate, int grassEnergy, int minMutations, int maxMutations, int genotypeLength, int initialEnergy) {
+    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed, int energyUsedToProcreate, int energyToBeAbleToProcreate, int grassEnergy, int minMutations, int maxMutations, int genotypeLength, int initialEnergy, int mutationType) {
         this.width = width;
         this.height = height;
         this.numberOfGrasses = numberOfGrasses;
@@ -21,6 +21,7 @@ public class WaterMap extends AbstractWorldMap {
         this.maxMutations = maxMutations;
         this.genotypeLength = genotypeLength;
         this.initialEnergy = initialEnergy;
+        this.mutationType = mutationType;
 
         for (int i = 0; i < numberOfLakes; i++) {
             Vector2d center;
