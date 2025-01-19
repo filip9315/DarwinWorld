@@ -48,7 +48,7 @@ public class Animal implements WorldElement {
     }
 
     public int getNumberOfDescendants() {
-        int numOfDescendants = getNumberOfCildren();
+        int numOfDescendants = getNumberOfChildren();
         for (Animal child : children) {
             numOfDescendants += child.getNumberOfDescendants();
         }
@@ -87,7 +87,7 @@ public class Animal implements WorldElement {
         this.numOfChildren = numOfChildren;
     }
 
-    public int getNumberOfCildren() {
+    public int getNumberOfChildren() {
         return children.size();
     }
 
@@ -147,7 +147,7 @@ public class Animal implements WorldElement {
     }
 
     public void die() {
-        setDayOfDeath(this.getAge());
+        setDayOfDeath(getAge());
     }
 
     public void setEnergy(int energy) {
@@ -168,7 +168,7 @@ public class Animal implements WorldElement {
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);
-        circle.setFill(Color.hsb(27, 0.76, (double) Math.min((double) map.getProcreationEnergy()/energy, 1.0)));
+        circle.setFill(Color.hsb(27, 0.76, (double) Math.min((double) map.getEnergyUsedToProcreate()/energy, 1.0)));
         return circle;
     }
     public AnimalStatistics getStatistics() {

@@ -8,13 +8,14 @@ public class WaterMap extends AbstractWorldMap {
     Map<Vector2d, Tile> waters = new HashMap<>();
     int numberOfLakes;
 
-    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed, int procreationEnergy, int grassEnergy) {
+    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed, int energyUsedToProcreate, int energyToBeAbleToProcreate, int grassEnergy) {
         this.width = width;
         this.height = height;
         this.numberOfGrasses = numberOfGrasses;
         this.numberOfLakes = numberOfLakes;
         this.grassGrowingSpeed = grassGrowingSpeed;
-        this.procreationEnergy = procreationEnergy;
+        this.energyUsedToProcreate = energyUsedToProcreate;
+        this.energyToBeAbleToProcreate = energyToBeAbleToProcreate;
         this.grassEnergy = grassEnergy;
 
         for (int i = 0; i < numberOfLakes; i++) {

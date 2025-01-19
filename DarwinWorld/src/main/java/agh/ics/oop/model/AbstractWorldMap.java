@@ -9,7 +9,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     int height;
     int numberOfGrasses;
     int grassEnergy;
-    int procreationEnergy;
+    int energyUsedToProcreate;
+    int energyToBeAbleToProcreate;
     int grassGrowingSpeed;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -21,8 +22,12 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
 
-    public int getProcreationEnergy() {
-        return procreationEnergy;
+    public int getEnergyUsedToProcreate() {
+        return energyUsedToProcreate;
+    }
+
+    public List<Animal> getDeadAnimals() {
+        return deadAnimals;
     }
 
     public int getGrassEnergy() {
@@ -30,7 +35,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public int getProcretionEnergy() {
-        return procreationEnergy;
+        return energyUsedToProcreate;
     }
 
     abstract public boolean canMoveTo(Vector2d position);

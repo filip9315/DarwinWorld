@@ -140,6 +140,8 @@ public class SimulationPresenter implements MapChangeListener {
             for (int i = 0; i < 7; i++) {
                 animalStatsTable.getItems().add(followedAnimal.getStatistics().getRow(i));
             }
+        } else {
+            animalStatsTable.getItems().clear();
         }
 
         dayLabel.setText("Day: " + simulation.getDay());
