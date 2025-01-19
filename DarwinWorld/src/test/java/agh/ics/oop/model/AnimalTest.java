@@ -1,12 +1,9 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.OptionsParser;
-import agh.ics.oop.Simulation;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,10 +39,10 @@ public class AnimalTest {
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
         Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
-        assertEquals(2, animal.getActiveGene());
-        assertEquals(1, animal.getActiveGene());
-        assertEquals(0, animal.getActiveGene());
-        assertEquals(2, animal.getActiveGene());
+        assertEquals(2, animal.useActiveGene());
+        assertEquals(1, animal.useActiveGene());
+        assertEquals(0, animal.useActiveGene());
+        assertEquals(2, animal.useActiveGene());
     }
 
     @Test

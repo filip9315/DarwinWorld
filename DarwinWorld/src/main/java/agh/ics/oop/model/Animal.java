@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.World;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -16,23 +15,51 @@ public class Animal implements WorldElement {
     int energy;
     int age;
     int numOfChildren;
+    ArrayList<Animal> children;
+    int numberOfEatenGrasses = 0;
+    int numberOfDays = 0;
+    int dayOfDeath;
     Genotype genotype;
     WorldMap map;
-
-    public Vector2d getPosition() {
-        return position;
-    }
 
     public Genotype getGenotype() {
         return genotype;
     }
 
-    public int getNumberOfChildren() {
-        return numOfChildren;
+    public int getActiveGene() {
+        return genotype.getActiveGene();
     }
 
-    public void setNumberOfChildren(int numOfChildren) {
-        this.numOfChildren = numOfChildren;
+    public Vector2d getPosition() {
+        return position;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getNumberOfEatenGrasses() {
+        return numberOfEatenGrasses;
+    }
+
+    public int getNumOfChildren() {
+        return children.size();
+    }
+
+    public int getNumberOfDescendants() {
+        int numOfDescendants = children.size();
+        for (Animal child : children) {
+            numOfDescendants += child.getNumberOfDescendants();
+        }
+        return numOfDescendants;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public MapDirection getDirection() {
@@ -41,6 +68,18 @@ public class Animal implements WorldElement {
 
     public void setDirection(MapDirection direction) {
         this.direction = direction;
+    }
+
+    public void setNumberOfEatenGrasses(int numOfEatenGrasses) {
+        this.numberOfEatenGrasses = numOfEatenGrasses;
+    }
+
+    public void setNumberOfChildren(int numOfChildren) {
+        this.numOfChildren = numOfChildren;
+    }
+
+    public void setNumberOfDays(int numberOfDays) {
+        this.numberOfDays = numberOfDays;
     }
 
     public Animal(Vector2d position, int energy, Genotype genotype, WorldMap map) {
@@ -67,6 +106,7 @@ public class Animal implements WorldElement {
 
     public void consumeGrass() {
         this.energy += map.getGrassEnergy();
+        numberOfEatenGrasses++;
     }
 
     public boolean canProcreate(){
@@ -85,33 +125,32 @@ public class Animal implements WorldElement {
         this.position = position;
     }
 
-    public int getActiveGene() {
+    public int useActiveGene() {
         return genotype.useGenotype();
     }
 
-    public int getEnergy() {
-        return energy;
+    public void setDayOfDeath(int dayOfDeath) {
+        this.dayOfDeath = dayOfDeath;
+    }
+
+    public void die() {
+        setDayOfDeath(this.getAge());
     }
 
     public void setEnergy(int energy) {
         this.energy = energy;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public int getNumOfChildren() {
-        return numOfChildren;
-    }
-
     public Animal procreate(Animal animal2) {
         this.setEnergy(this.getEnergy() - map.getProcretionEnergy());
         animal2.setEnergy(animal2.getEnergy() - map.getProcretionEnergy());
-        this.setNumberOfChildren(this.getNumberOfChildren() + 1);
-        animal2.setNumberOfChildren(this.getNumberOfChildren() + 1);
+        this.setNumberOfChildren(this.getNumOfChildren() + 1);
+        animal2.setNumberOfChildren(this.getNumOfChildren() + 1);
 
-        return new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
+        Animal descendant = new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
+        this.children.add(descendant);
+        animal2.children.add(descendant);
+        return descendant;
     }
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;

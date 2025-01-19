@@ -13,10 +13,12 @@ public abstract class AbstractWorldMap implements WorldMap {
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
     Statistics statistics = new Statistics(this);
+    ArrayList<Animal> deadAnimals = new ArrayList<>();
 
-    List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
     UUID id;
+
+    Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
 
     public int getGrassEnergy() {
         return grassEnergy;
@@ -37,8 +39,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (canMoveTo(animal.getPosition())) {
 //            animals.put(animalPosition, animal);
             animals.addAnimal(animal);
-
-            animalList.add(animal);
             mapChanged("Animal placed on " + animalPosition);
         }else{
             throw new IncorrectPositionException(animalPosition);
@@ -47,7 +47,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     public Vector2d newAnimalPosition(Animal animal) {
         Vector2d position = animal.getPosition();
-        MapDirection newAnimalDirection = animal.getDirection().rotate(animal.getActiveGene());
+        MapDirection newAnimalDirection = animal.getDirection().rotate(animal.useActiveGene());
         animal.setDirection(newAnimalDirection);
         Vector2d newPosition = animal.getPosition().add(animal.getDirection().toUnitVector());
         return newPosition;
@@ -149,13 +149,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         return livableTiles;
     }
 
-    void placeGrass(int n){
-        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
-        for(Vector2d grassPosition : randomPositionsGenerator) {
-            grasses.put(grassPosition, new Grass(grassPosition));
-        }
-    }
-
     void removeGrass(Vector2d grassPosition){
         grasses.remove(grassPosition);
     }
@@ -164,6 +157,14 @@ public abstract class AbstractWorldMap implements WorldMap {
         animalsConsumeGrass();
         animalsProcreate();
         removeDeadAnimals();
+        updateAnimalsAge();
+    }
+
+    public void updateAnimalsAge(){
+        ArrayList<Animal> allAnimals = animals.getAllAnimals();
+        for (Animal animal : allAnimals) {
+            animal.setAge(animal.getAge() + 1);
+        }
     }
 
     public void animalsConsumeGrass () {
@@ -195,7 +196,9 @@ public abstract class AbstractWorldMap implements WorldMap {
                 }
             }
         }
-        animalList.addAll(animalsToAdd);
+        for (Animal animal : animalsToAdd) {
+            animals.addAnimal(animal);
+        }
     }
 
     public void removeDeadAnimals() {
@@ -203,9 +206,39 @@ public abstract class AbstractWorldMap implements WorldMap {
         for (Animal animal : allAnimals) {
             if (animal.getEnergy() <= 0) {
                 animals.removeAnimal(animal);
+                animal.die();
+                deadAnimals.add(animal);
             }
         }
 
+    }
+
+    public ArrayList<Vector2d> calculateObstaclesPositions() {
+        ArrayList<Vector2d> obstaclePositions = new ArrayList<>();
+        obstaclePositions.addAll(grasses.keySet());
+        return obstaclePositions;
+    }
+
+    public void calculateEmptyTiles() {
+        emptyTiles.clear();
+        ArrayList<Vector2d> obstaclesPositions = calculateObstaclesPositions();
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Vector2d position = new Vector2d(i, j);
+                if (!obstaclesPositions.contains(position)) {
+                    emptyTiles.put(position, true);
+                }
+            
+            }
+        }
+    }
+
+    void placeGrass(int n){
+        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
+        for(Vector2d grassPosition : randomPositionsGenerator) {
+            grasses.put(grassPosition, new Grass(grassPosition));
+        }
     }
 
     public int getMapWidth() {

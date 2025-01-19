@@ -23,7 +23,7 @@ public class RandomPositionsGenerator implements Iterable<Vector2d> {
                     if(Math.random() < 0.2){
                         positions.add(new Vector2d(x, y));
                     }
-                } else{
+                } else {
                     positions.add(new Vector2d(x, y));
                 }
 
