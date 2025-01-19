@@ -7,6 +7,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     int width;
     int height;
+    int day = 0;
     int numberOfGrasses;
     int grassEnergy;
     int energyUsedToProcreate;
@@ -26,6 +27,14 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
 
+    public int getDay() {
+        return day;
+    }
+
+    public void updateDay() {
+        this.day++;
+    }
+
     public int getEnergyUsedToProcreate() {
         return energyUsedToProcreate;
     }
@@ -33,6 +42,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public List<Animal> getDeadAnimals() {
         return deadAnimals;
     }
+
 
     public int getGrassEnergy() {
         return grassEnergy;
@@ -59,7 +69,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     public Vector2d newAnimalPosition(Animal animal) {
-        Vector2d position = animal.getPosition();
         MapDirection newAnimalDirection = animal.getDirection().rotate(animal.useActiveGene());
         animal.setDirection(newAnimalDirection);
         Vector2d newPosition = animal.getPosition().add(animal.getDirection().toUnitVector());
@@ -75,19 +84,15 @@ public abstract class AbstractWorldMap implements WorldMap {
         newPosition = normaliseNewPosition(newPosition);
 
         if (this.canMoveTo(newPosition)) {
-//            animals.remove(animal.getPosition());
             animals.removeAnimal(animal);
             animal.move(newPosition);
-//            animals.put(animal.getPosition(), animal);
+            animal.setEnergy(animal.getEnergy() - 1);
             animals.addAnimal(animal);
             mapChanged("Animal moved to " + animal.getPosition());
         }
 
     }
 
-//    public List<WorldElement> getElements() {
-//        return new ArrayList<>(animals.values());
-//    }
     public ArrayList<WorldElement> getElements() {
         ArrayList<WorldElement> elements = new ArrayList<>();
         elements.addAll(animals.getAllAnimalsAsWorldElements());
@@ -171,7 +176,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         animalsProcreate();
         removeDeadAnimals();
         updateAnimalsAge();
-        growGrass(1);
+        growGrass(grassGrowingSpeed);
     }
 
     public void updateAnimalsAge(){

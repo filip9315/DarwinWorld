@@ -13,7 +13,6 @@ public class Simulation implements Runnable {
     int numberOfAnimals;
     int simulationLength;
     int genotypeLength;
-    int day;
     boolean saveToCSV;
     String nameFile;
 
@@ -41,7 +40,7 @@ public class Simulation implements Runnable {
     }
 
     public int getDay() {
-        return day;
+        return map.getDay();
     }
 
 
@@ -74,7 +73,6 @@ public class Simulation implements Runnable {
     }
 
     public void run(){
-        day = 0;
 
         for (int i=0; i < simulationLength; i++) {
 
@@ -108,7 +106,7 @@ public class Simulation implements Runnable {
                     throw new RuntimeException(e);
                 }
             }
-            day++;
+            map.updateDay();
             try {
                 Thread.sleep(400);
             } catch (InterruptedException e) {
