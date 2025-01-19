@@ -8,8 +8,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     int width;
     int height;
     int numberOfGrasses;
+    //TODO change this:
     int grassEnergy = 1;
     int procreationEnergy = 10;
+    int grassGrowingSpeed;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
     ArrayList<Animal> deadAnimals = new ArrayList<>();
@@ -238,6 +240,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
         for(Vector2d grassPosition : randomPositionsGenerator) {
             grasses.put(grassPosition, new Grass(grassPosition));
+            statistics.updateGrassCount(grassPosition);
         }
     }
 

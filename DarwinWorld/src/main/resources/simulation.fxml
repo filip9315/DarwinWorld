@@ -5,8 +5,18 @@
 
 <BorderPane minHeight="800.0" minWidth="900.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationPresenter">
     <right>
-        <VBox alignment="CENTER">
+        <VBox alignment="CENTER" spacing="15">
             <Label fx:id="dayLabel" />
+            <VBox spacing="15" alignment="CENTER">
+                <Button mnemonicParsing="false" text="Show most common genotype"
+                        fx:id="showMostCommonGenotypeButton"
+                        onAction="#showMostCommonGenotype"
+                />
+                <Button mnemonicParsing="false" text="Show most preferred grass tiles"
+                        fx:id="showPreferredGrassTilesButton"
+                        onAction="#showPreferredGrassTiles"
+                />
+            </VBox>
             <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true" VBox.vgrow="ALWAYS" />
          <Button mnemonicParsing="false" text="Pause" onAction="#pause" fx:id="pauseButton"/>
         </VBox>

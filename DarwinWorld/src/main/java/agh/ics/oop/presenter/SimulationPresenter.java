@@ -11,8 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
-import java.util.Objects;
+import java.util.*;
 
 public class SimulationPresenter implements MapChangeListener {
 
@@ -25,12 +28,18 @@ public class SimulationPresenter implements MapChangeListener {
     public GridPane mapGrid;
     public TableColumn<RowData, String> animalStatsColumn1;
     public TableColumn<RowData, String> animalStatsColumn2;
+    public Button showMostCommonGenotypeButton;
+    public Button showPreferredGrassTilesButton;
 
     WorldMap map;
     Simulation simulation;
     Animal followedAnimal;
     double tileWidth = 0;
     double tileHeight = 0;
+    boolean showingMostCommonGenotype = false;
+    boolean showingPreferredGrassTiles = false;
+    List<Circle> circles = new ArrayList<>();
+    List<Rectangle> rectangles = new ArrayList<>();
 
     String message;
 
@@ -41,6 +50,8 @@ public class SimulationPresenter implements MapChangeListener {
         column2.setCellValueFactory(new PropertyValueFactory<>("column2"));
         animalStatsColumn1.setCellValueFactory(new PropertyValueFactory<>("column1"));
         animalStatsColumn2.setCellValueFactory(new PropertyValueFactory<>("column2"));
+        showMostCommonGenotypeButton.setDisable(true);
+        showPreferredGrassTilesButton.setDisable(true);
     }
 
 
@@ -48,9 +59,67 @@ public class SimulationPresenter implements MapChangeListener {
         simulation.pause();
         if(simulation.isPaused()){
             pauseButton.setText("Resume");
+            showMostCommonGenotypeButton.setDisable(false);
+            showPreferredGrassTilesButton.setDisable(false);
         } else {
             pauseButton.setText("Pause");
+            showingMostCommonGenotype = false;
+            showingPreferredGrassTiles = false;
+            showMostCommonGenotypeButton.setDisable(true);
+            showPreferredGrassTilesButton.setDisable(true);
         }
+    }
+
+    public void showMostCommonGenotype(){
+        if(!showingMostCommonGenotype){
+            for(Animal animal : map.getAnimals()){
+                if(animal.getGenotype().equals(map.getStatistics().getMostCommonGenotype())){
+                    int x = animal.getPosition().getX();
+                    int y = animal.getPosition().getY();
+
+                    Circle emptyCircle = new Circle(Math.min(tileWidth/2, tileHeight/2));
+                    emptyCircle.setStroke(Color.RED);
+                    emptyCircle.setFill(Color.TRANSPARENT);
+                    emptyCircle.setStrokeWidth(2);
+                    mapGrid.add(emptyCircle, x, y, 1, 1);
+                    GridPane.setHalignment(emptyCircle, HPos.CENTER);
+                    circles.add(emptyCircle);
+                }
+            }
+            showingMostCommonGenotype = true;
+        } else{
+            for (Circle circle : circles) {
+                mapGrid.getChildren().remove(circle);
+            }
+            circles.clear();
+            showingMostCommonGenotype = false;
+        }
+    }
+
+
+    public void showPreferredGrassTiles() {
+        if(!showingPreferredGrassTiles){
+            for(Vector2d position : map.getStatistics().getPreferredGrassTiles()){
+                int x = position.getX();
+                int y = position.getY();
+
+                Rectangle rectangle = new Rectangle(tileWidth, tileHeight);
+                rectangle.setStroke(Color.RED);
+                rectangle.setFill(Color.TRANSPARENT);
+                rectangle.setStrokeWidth(2);
+                mapGrid.add(rectangle, x, y, 1, 1);
+                GridPane.setHalignment(rectangle, HPos.CENTER);
+                rectangles.add(rectangle);
+            }
+            showingPreferredGrassTiles = true;
+        } else {
+            for (Rectangle rectangle : rectangles) {
+                mapGrid.getChildren().remove(rectangle);
+            }
+            rectangles.clear();
+            showingPreferredGrassTiles = false;
+        }
+
     }
 
 
@@ -141,7 +210,6 @@ public class SimulationPresenter implements MapChangeListener {
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(this::drawMap);
         Platform.runLater(this::drawStats);
-
         this.message = message;
     }
 

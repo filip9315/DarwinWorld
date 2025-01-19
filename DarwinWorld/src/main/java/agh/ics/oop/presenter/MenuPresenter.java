@@ -3,22 +3,15 @@ package agh.ics.oop.presenter;
 import agh.ics.oop.Simulation;
 import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.model.*;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalDateTime;
 
 public class MenuPresenter {
 
@@ -40,6 +33,7 @@ public class MenuPresenter {
     public TextField maxNumberOfMutationsTextField;
     public RadioButton randomMutationButton;
     public RadioButton slightCorrectionMutationButton;
+    public CheckBox saveToCSVCheckbox;
     @FXML
     private TextField widthTextField;
     @FXML
@@ -51,7 +45,7 @@ public class MenuPresenter {
     int mapHeight;
     int mapType;
     int numberOfGrasses;
-    int growingGrasses;
+    int grassGrowingSpeed;
     int numberOfAnimals;
     int initEnergy;
     int maxAmountOfEnergy;
@@ -60,7 +54,7 @@ public class MenuPresenter {
     int maxNumberOfMutations;
     int mutationType;
     int genotypeLength;
-
+    boolean saveToCSV;
 
     SimulationEngine simulationEngine;
 
@@ -75,7 +69,7 @@ public class MenuPresenter {
         mapWidth = Integer.parseInt(widthTextField.getText());
         mapHeight = Integer.parseInt(heightTextField.getText());
         numberOfGrasses = Integer.parseInt(numberOfGrassesTextField.getText());
-        growingGrasses = Integer.parseInt(growingGrassesTextField.getText());
+        grassGrowingSpeed = Integer.parseInt(growingGrassesTextField.getText());
         numberOfAnimals = Integer.parseInt(numberOfAnimalsTextField.getText());
         initEnergy = Integer.parseInt(initEnergyTextField.getText());
         maxAmountOfEnergy = Integer.parseInt(maxAmountOfEnergyTextField.getText());
@@ -86,10 +80,12 @@ public class MenuPresenter {
 
 
         if(mapType == 0){
-            map = new Globe(mapWidth, mapHeight, numberOfGrasses);
+            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed);
         } else if (mapType == 1){
-            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses);
+            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed);
         }
+
+        saveToCSV = saveToCSVCheckbox.isSelected();
     }
 
 
@@ -143,7 +139,7 @@ public class MenuPresenter {
                 mapHeight = Integer.parseInt(reader.readLine());
                 mapType = Integer.parseInt(reader.readLine());
                 numberOfGrasses = Integer.parseInt(reader.readLine());
-                growingGrasses = Integer.parseInt(reader.readLine());
+                grassGrowingSpeed = Integer.parseInt(reader.readLine());
                 numberOfAnimals = Integer.parseInt(reader.readLine());
                 initEnergy = Integer.parseInt(reader.readLine());
                 maxAmountOfEnergy = Integer.parseInt(reader.readLine());
@@ -158,7 +154,7 @@ public class MenuPresenter {
                 widthTextField.setText(String.valueOf(mapWidth));
                 heightTextField.setText(String.valueOf(mapHeight));
                 numberOfGrassesTextField.setText(String.valueOf(numberOfGrasses));
-                growingGrassesTextField.setText(String.valueOf(growingGrasses));
+                growingGrassesTextField.setText(String.valueOf(grassGrowingSpeed));
                 numberOfAnimalsTextField.setText(String.valueOf(numberOfAnimals));
                 initEnergyTextField.setText(String.valueOf(initEnergy));
                 maxAmountOfEnergyTextField.setText(String.valueOf(maxAmountOfEnergy));
@@ -168,8 +164,6 @@ public class MenuPresenter {
                 genotypeLengthTextField.setText(String.valueOf(genotypeLength));
 
 
-
-                // Set the selected map type in the radio buttons
                 if (mapType == 0) {
                     globeRadioButton.setSelected(true);
                 } else if (mapType == 1) {
@@ -213,7 +207,7 @@ public class MenuPresenter {
                 writer.write(mapHeight + "\n");
                 writer.write(mapType + "\n");
                 writer.write(numberOfGrasses + "\n");
-                writer.write(growingGrasses + "\n");
+                writer.write(grassGrowingSpeed + "\n");
                 writer.write(numberOfAnimals + "\n");
                 writer.write(initEnergy + "\n");
                 writer.write(maxAmountOfEnergy + "\n");
@@ -237,8 +231,13 @@ public class MenuPresenter {
 
     public void handleStartSimulationButton() throws IOException {
         getInfoFromGUI();
-        Simulation simulation = new Simulation(numberOfAnimals, map, initEnergy, genotypeLength, simulationLength);
-
+        Simulation simulation = new Simulation(numberOfAnimals, map, initEnergy, genotypeLength, simulationLength, saveToCSV);
+        if(saveToCSV){
+            String filename = "simulation_data_" + LocalDateTime.now() +".txt";
+            simulation.setFileName(filename);
+        }
        simulationEngine.createNewSimulation(simulation);
     }
+
+
 }

@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,16 @@ public class Simulation implements Runnable {
     int simulationLength;
     int genotypeLength;
     int day;
+    boolean saveToCSV;
+    String nameFile;
 
     WorldMap map;
     Visitor visitor = new MapActionVisitor();
 
+
+    public void setFileName(String fileName) {
+        this.nameFile = fileName;
+    }
 
     private volatile boolean isPaused = false;
 
@@ -33,16 +40,21 @@ public class Simulation implements Runnable {
         return isPaused;
     }
 
-    public int getDay(){
+    public int getDay() {
         return day;
     }
 
+    public boolean shouldSave(){
+        return saveToCSV;
+    }
 
-    public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, int genotypeLength, int simulationLength) {
+
+    public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, int genotypeLength, int simulationLength, boolean saveToCSV) {
         this.numberOfAnimals = numberOfAnimals;
         this.map = map;
         this.simulationLength = simulationLength;
         this.genotypeLength = genotypeLength;
+        this.saveToCSV = saveToCSV;
         generatePositions(numberOfAnimals);
 
         for (Vector2d position : positions) {
@@ -55,9 +67,6 @@ public class Simulation implements Runnable {
         }
     }
 
-    public Animal getAnimal(int i) {
-        return map.getAnimals().get(i);
-    }
     public WorldMap getMap() {return map;}
 
     public void generatePositions(int n) {
@@ -69,7 +78,6 @@ public class Simulation implements Runnable {
     }
 
     public void run(){
-        System.out.println(map);
         day = 0;
 
         for (int i=0; i < simulationLength; i++) {
@@ -91,7 +99,14 @@ public class Simulation implements Runnable {
             map.accept(visitor);
             map.updateWorldMap();
             map.getStatistics().updateStatistics();
-            System.out.println(map);
+//            System.out.println(map);
+            if(saveToCSV) {
+                try {
+                    map.getStatistics().save(nameFile);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             day++;
             try {
                 Thread.sleep(400);

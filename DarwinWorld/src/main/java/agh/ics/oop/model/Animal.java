@@ -18,7 +18,7 @@ public class Animal implements WorldElement {
     ArrayList<Animal> children;
     int numberOfEatenGrasses = 0;
     int numberOfDays = 0;
-    int dayOfDeath;
+    int dayOfDeath = -1;
     Genotype genotype;
     WorldMap map;
     AnimalStatistics animalStatistics= new AnimalStatistics(this);
@@ -57,6 +57,14 @@ public class Animal implements WorldElement {
 
     public int getAge() {
         return age;
+    }
+
+    public int getDayOfDeath() {
+        return dayOfDeath;
+    }
+
+    public boolean isAlive() {
+        return (dayOfDeath == -1);
     }
 
     public void setAge(int age) {

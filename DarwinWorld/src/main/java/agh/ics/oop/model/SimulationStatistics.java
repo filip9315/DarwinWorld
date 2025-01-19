@@ -2,6 +2,10 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.presenter.SimulationPresenter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class SimulationStatistics {
@@ -16,6 +20,7 @@ public class SimulationStatistics {
 
     WorldMap map;
     List<RowData> rowData = new ArrayList<>();
+    Map<Vector2d, Integer> grassCount = new HashMap<>();
 
     public SimulationStatistics(WorldMap map) {
         this.map = map;
@@ -34,10 +39,10 @@ public class SimulationStatistics {
         numberOfAnimals = "" + map.getAnimals().size();
         numberOfGrasses = "" + map.getElements().stream().filter(worldElement -> worldElement instanceof Grass).count();
         numberOfEmptyTiles = "" + ((long) map.getMapWidth() * map.getMapHeight() - (long) map.getElements().size());
-        mostCommonGenotype = getMostCommonGenotype();
+        mostCommonGenotype = getMostCommonGenotype().toString();
         averageEnergy = getAverageEnergy();
         averageLifetime = getAverageLifetime();
-        averageNumberOfChildren = "Todo";
+        averageNumberOfChildren = getAverageNumberOfChildren();
 
         rowData.add(new RowData("Number of animals", numberOfAnimals));
         rowData.add(new RowData("Number of grasses", numberOfGrasses));
@@ -46,11 +51,10 @@ public class SimulationStatistics {
         rowData.add(new RowData("Average energy", averageEnergy));
         rowData.add(new RowData("Average lifetime", averageLifetime));
         rowData.add(new RowData("Average number of children", averageNumberOfChildren));
-
     }
 
 
-    String getMostCommonGenotype() {
+    public Genotype getMostCommonGenotype() {
         Map<Genotype, Integer> genotypes = new HashMap<>();
 
         for (Animal animal : map.getAnimals()) {
@@ -67,9 +71,24 @@ public class SimulationStatistics {
             }
         }
 
-        return mostCommonGenotype != null ? mostCommonGenotype.toString() : "No genotypes found";
+        return mostCommonGenotype;
     }
 
+    void updateGrassCount(Vector2d position) {
+        grassCount.put(position, grassCount.getOrDefault(position, 0) + 1);
+    }
+
+    public List<Vector2d> getPreferredGrassTiles() {
+        int maxValue = Collections.max(grassCount.values());
+
+        List<Vector2d> preferredGrassTiles = new ArrayList<>();
+        for (Map.Entry<Vector2d, Integer> entry : grassCount.entrySet()) {
+            if (entry.getValue() == maxValue) {
+                preferredGrassTiles.add(entry.getKey());
+            }
+        }
+        return preferredGrassTiles;
+    }
 
     String getAverageEnergy() {
         double sum = 0;
@@ -86,6 +105,35 @@ public class SimulationStatistics {
             sum += animal.getAge();
         }
         return String.format("%.2f", sum / map.getAnimals().size());
+    }
+
+
+    String getAverageNumberOfChildren() {
+        double sum = 0;
+        for (Animal animal : map.getAnimals()) {
+            sum += animal.getNumOfChildren();
+        }
+        return String.format("%.2f", sum / map.getAnimals().size());
+    }
+
+    public void save(String path) throws IOException {
+        File file = new File(path);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+
+        if (file.length() == 0) {
+            for (RowData rowData : rowData) {
+                writer.write(rowData.getColumn1() + ",");
+            }
+            writer.newLine();
+        }
+
+        for (RowData rowData : rowData) {
+            writer.write(rowData.getColumn2() + ",");
+        }
+
+        writer.newLine();
+
+        writer.close();
     }
 }
 

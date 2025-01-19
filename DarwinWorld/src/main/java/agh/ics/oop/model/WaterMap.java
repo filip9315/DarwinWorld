@@ -8,11 +8,12 @@ public class WaterMap extends AbstractWorldMap {
     Map<Vector2d, Tile> waters = new HashMap<>();
     int numberOfLakes;
 
-    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses) {
+    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed) {
         this.width = width;
         this.height = height;
         this.numberOfGrasses = numberOfGrasses;
         this.numberOfLakes = numberOfLakes;
+        this.grassGrowingSpeed = grassGrowingSpeed;
 
         for (int i = 0; i < numberOfLakes; i++) {
             Vector2d center;
@@ -55,14 +56,6 @@ public class WaterMap extends AbstractWorldMap {
         obstaclePositions.addAll(grasses.keySet());
         obstaclePositions.addAll(waters.keySet());
         return obstaclePositions;
-    }
-
-    @Override
-    void placeGrass(int n){
-        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
-        for(Vector2d grassPosition : randomPositionsGenerator) {
-            grasses.put(grassPosition, new Grass(grassPosition));
-        }
     }
 
     public void changeSizeOfLakes(){
