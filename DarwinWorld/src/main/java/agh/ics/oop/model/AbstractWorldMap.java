@@ -160,6 +160,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         animalsProcreate();
         removeDeadAnimals();
         updateAnimalsAge();
+        growGrass(1);
     }
 
     public void updateAnimalsAge(){
@@ -198,19 +199,29 @@ public abstract class AbstractWorldMap implements WorldMap {
                 }
             }
         }
-        for (Animal animal : animalsToAdd) {
+        if (!animalsToAdd.isEmpty()) {
+            for (Animal animal : animalsToAdd) {
             animals.addAnimal(animal);
+            }
         }
+    }
+
+    public void removeAnimal(Animal animal) {
+        animals.removeAnimal(animal);
+        animal.die();
+        deadAnimals.add(animal);
     }
 
     public void removeDeadAnimals() {
         ArrayList<Animal> allAnimals = animals.getAllAnimals();
+        ArrayList<Animal> deadAnimals = new ArrayList<>();
         for (Animal animal : allAnimals) {
             if (animal.getEnergy() <= 0) {
-                animals.removeAnimal(animal);
-                animal.die();
                 deadAnimals.add(animal);
             }
+        }
+        for (Animal deadAnimal : deadAnimals) {
+            removeAnimal(deadAnimal);
         }
 
     }
@@ -241,6 +252,32 @@ public abstract class AbstractWorldMap implements WorldMap {
         for(Vector2d grassPosition : randomPositionsGenerator) {
             grasses.put(grassPosition, new Grass(grassPosition));
             statistics.updateGrassCount(grassPosition);
+        }
+    }
+
+    public void growGrass(int n){
+        int grassToGenerate = n;
+        calculateEmptyTiles();
+        while (grassToGenerate > 0) {
+            if (emptyTiles.size() > grassToGenerate) {
+                RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
+                for(Vector2d grassPosition : randomPositionsGenerator) {
+                    if (emptyTiles.containsKey(grassPosition)) {
+                        grasses.put(grassPosition, new Grass(grassPosition));
+                        emptyTiles.remove(grassPosition);
+                        grassToGenerate--;
+                    }
+
+                }
+            }
+            else if (emptyTiles.size() < grassToGenerate) {
+                Set<Vector2d> positions = emptyTiles.keySet();
+                for (Vector2d position : positions) {
+                    grasses.put(position, new Grass(position));
+                }
+                emptyTiles.clear();
+                break;
+            }
         }
     }
 

@@ -15,7 +15,7 @@ public class Animal implements WorldElement {
     int energy;
     int age;
     int numOfChildren;
-    ArrayList<Animal> children;
+    ArrayList<Animal> children = new ArrayList<>();
     int numberOfEatenGrasses = 0;
     int numberOfDays = 0;
     int dayOfDeath = -1;
@@ -48,7 +48,7 @@ public class Animal implements WorldElement {
     }
 
     public int getNumberOfDescendants() {
-        int numOfDescendants = children.size();
+        int numOfDescendants = getNumberOfCildren();
         for (Animal child : children) {
             numOfDescendants += child.getNumberOfDescendants();
         }
@@ -85,6 +85,10 @@ public class Animal implements WorldElement {
 
     public void setNumberOfChildren(int numOfChildren) {
         this.numOfChildren = numOfChildren;
+    }
+
+    public int getNumberOfCildren() {
+        return children.size();
     }
 
     public void setNumberOfDays(int numberOfDays) {
@@ -154,7 +158,7 @@ public class Animal implements WorldElement {
         this.setEnergy(this.getEnergy() - map.getProcretionEnergy());
         animal2.setEnergy(animal2.getEnergy() - map.getProcretionEnergy());
         this.setNumberOfChildren(this.getNumOfChildren() + 1);
-        animal2.setNumberOfChildren(this.getNumOfChildren() + 1);
+        animal2.setNumberOfChildren(animal2.getNumOfChildren() + 1);
 
         Animal descendant = new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
         this.children.add(descendant);

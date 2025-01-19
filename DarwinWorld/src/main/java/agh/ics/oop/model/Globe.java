@@ -9,6 +9,8 @@ public class Globe extends AbstractWorldMap {
         this.height = height;
         this.id = UUID.randomUUID();
         this.numberOfGrasses = numberOfGrasses;
+//        placeGrass(numberOfGrasses);
+        growGrass(numberOfGrasses);
         placeGrass(numberOfGrasses);
         this.grassGrowingSpeed = grassGrowingSpeeed;
     }
