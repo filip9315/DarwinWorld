@@ -26,7 +26,8 @@ public class WaterMap extends AbstractWorldMap {
             lakes.add(lake);
             waters.putAll(lake.getWaters());
         }
-        placeGrass(numberOfGrasses);
+//        placeGrass(numberOfGrasses);
+        growGrass(numberOfGrasses);
     }
 
     @Override
@@ -66,12 +67,36 @@ public class WaterMap extends AbstractWorldMap {
     }
 
     public void changeSizeOfLakes(){
-        int flow = (int)(Math.random() * 3);
+//        int flow = (int)(Math.random() * 3);
+//        int flow = (int) ((Math.random() * 5 - 1) + 1);
+        int flow = (Math.random() >= 0.5) ? 1 : -1;
         waters.clear();
         for (Lake lake : lakes) {
-            Lake newLake = new Lake(lake.getCenter(), lake.getRadius()+flow, this);
+            int radius = lake.getRadius() + flow;
+            if (radius < 2) {
+                radius = 2;
+            } else if (radius > 10) {
+                radius = 10;
+            }
+            Lake newLake = new Lake(lake.getCenter(), radius, this);
             lakes.set(lakes.indexOf(lake), newLake);
             waters.putAll(newLake.getWaters());
+        }
+
+        for (Vector2d position : waters.keySet()) {
+            ArrayList<Animal> animalsAtPosition = (ArrayList<Animal>) animals.getAnimalsAtPosition(position).clone();
+            if (!animalsAtPosition.isEmpty()) {
+                for (Animal animal : animalsAtPosition) {
+                removeAnimal(animal);
+            }
+            }
+
+
+            Grass grassAtPosiotion = grasses.get(position);
+
+            if (grassAtPosiotion != null) {
+                grasses.remove(position);
+            }
         }
     }
 

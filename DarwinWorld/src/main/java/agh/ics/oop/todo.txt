@@ -1,10 +1,11 @@
-- Rośliny
+++++ - Rośliny ++++
 ++++ - Jedzenie (animal) +++
 ++++ - Rozmnażanie (animal) ++++
 ++++ - Liczba mutacji zależna od min i max ++++
 ++++ - Teleportacja na drugą stronę (Globe)  ++++
 +++ - Usuwanie martwych zwierzaków (Simulation) ++++
-- Naprawa waterMap
+++++ - Naprawa waterMap ++++
+- Naprawa Globe
 - Symulacja
 - GUI
 - Statystyki (Statystyki każdego dnia powinny być zapisywane do pliku CSV)
