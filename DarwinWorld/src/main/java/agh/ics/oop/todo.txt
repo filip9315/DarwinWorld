@@ -5,7 +5,7 @@
 ++++ - Teleportacja na drugą stronę (Globe)  ++++
 +++ - Usuwanie martwych zwierzaków (Simulation) ++++
 ++++ - Naprawa waterMap ++++
-- Naprawa Globe
+++++ - Naprawa Globe +++
 - Symulacja
 - GUI
 - Statystyki (Statystyki każdego dnia powinny być zapisywane do pliku CSV)

@@ -28,6 +28,10 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
 
+    public int getEnergyToBeAbleToProcreate() {
+        return energyToBeAbleToProcreate;
+    }
+
     public int getDay() {
         return day;
     }
@@ -40,10 +44,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         this.day++;
     }
 
-    public int getEnergyUsedToProcreate() {
-        return energyUsedToProcreate;
-    }
-
     public List<Animal> getDeadAnimals() {
         return deadAnimals;
     }
@@ -53,7 +53,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         return grassEnergy;
     }
 
-    public int getProcretionEnergy() {
+    public int getEnergyUsedToProcreate() {
         return energyUsedToProcreate;
     }
 
@@ -137,9 +137,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (!animals.getAnimalsAtPosition(position).isEmpty()) {
             return animals.getAnimalsAtPosition(position).getFirst();
         }
-//        if (animals.get(position) != null) {
-//            return animals.get(position);
-//        }
         if (grasses.get(position) != null) {
             return grasses.get(position);
         }

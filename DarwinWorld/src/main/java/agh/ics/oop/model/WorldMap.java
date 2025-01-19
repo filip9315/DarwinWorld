@@ -54,7 +54,6 @@ public interface WorldMap extends MoveValidator {
     List<Vector2d> getLivableTiles();
     void accept(Visitor visitor);
     int getGrassEnergy();
-    int getProcretionEnergy();
     void updateWorldMap();
     int getMapWidth();
     int getMapHeight();
@@ -64,4 +63,5 @@ public interface WorldMap extends MoveValidator {
     int getEnergyUsedToProcreate();
     List<Animal> getDeadAnimals();
     int getMutationType();
+    int getEnergyToBeAbleToProcreate();
 }
