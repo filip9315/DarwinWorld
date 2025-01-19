@@ -40,10 +40,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         return day;
     }
 
-    public int getGenotypeLength() {
-        return genotypeLength;
-    }
-
     public int getMutationType() {
         return mutationType;
     }
