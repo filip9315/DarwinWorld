@@ -14,7 +14,7 @@ public class GlobeTest {
     @Test
     void AnimalMovesCorrectly(){
 
-        WorldMap map = new Globe(4,4, 1);
+        WorldMap map = new Globe(4,4, 1, 2);
 
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
 
@@ -29,7 +29,7 @@ public class GlobeTest {
     @Test
     void AnimalCantGoOutsideMap(){
 
-        WorldMap map = new Globe(4,4, 1);
+        WorldMap map = new Globe(4,4, 1, 2);
 
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 0, 0)));
 

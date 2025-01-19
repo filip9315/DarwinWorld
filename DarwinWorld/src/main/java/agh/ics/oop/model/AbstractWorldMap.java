@@ -247,13 +247,6 @@ public abstract class AbstractWorldMap implements WorldMap {
         }
     }
 
-    void placeGrass(int n){
-        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
-        for(Vector2d grassPosition : randomPositionsGenerator) {
-            grasses.put(grassPosition, new Grass(grassPosition));
-            statistics.updateGrassCount(grassPosition);
-        }
-    }
 
     public void growGrass(int n){
         int grassToGenerate = n;
@@ -264,6 +257,7 @@ public abstract class AbstractWorldMap implements WorldMap {
                 for(Vector2d grassPosition : randomPositionsGenerator) {
                     if (emptyTiles.containsKey(grassPosition)) {
                         grasses.put(grassPosition, new Grass(grassPosition));
+                        statistics.updateGrassCount(grassPosition);
                         emptyTiles.remove(grassPosition);
                         grassToGenerate--;
                     }
@@ -272,8 +266,9 @@ public abstract class AbstractWorldMap implements WorldMap {
             }
             else if (emptyTiles.size() < grassToGenerate) {
                 Set<Vector2d> positions = emptyTiles.keySet();
-                for (Vector2d position : positions) {
-                    grasses.put(position, new Grass(position));
+                for (Vector2d grassPosition : positions) {
+                    grasses.put(grassPosition, new Grass(grassPosition));
+                    statistics.updateGrassCount(grassPosition);
                 }
                 emptyTiles.clear();
                 break;

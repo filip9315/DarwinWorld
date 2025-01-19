@@ -11,7 +11,7 @@ public class AnimalTest {
 
     @Test
     public void testAnimalInitialization() {
-        Globe globe = new Globe(1, 1 , 0);
+        Globe globe = new Globe(1, 1 , 0, 2);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
         Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
@@ -22,7 +22,7 @@ public class AnimalTest {
 
     @Test
     public void testAnimalSetDirection() {
-        Globe globe = new Globe(1, 1 , 0);
+        Globe globe = new Globe(1, 1 , 0, 2);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
         Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
@@ -35,7 +35,7 @@ public class AnimalTest {
 
     @Test
     public void testAnimalActiveGene() {
-        Globe globe = new Globe(1, 1 , 0);
+        Globe globe = new Globe(1, 1 , 0, 2);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
         Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
@@ -47,7 +47,7 @@ public class AnimalTest {
 
     @Test
     public void testAnimalMovement() {
-        Globe globe = new Globe(1, 1 , 0);
+        Globe globe = new Globe(1, 1 , 0, 2);
         Genotype genotype = new Genotype(new ArrayList<>(Arrays.asList(2, 1, 0)));
         Animal animal = new Animal(new Vector2d(10, 10), 5, genotype, globe);
 
