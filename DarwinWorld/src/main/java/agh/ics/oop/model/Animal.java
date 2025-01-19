@@ -116,12 +116,7 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.map = map;
         this.ID = ID_count++;
-
-        if(map.getMutationType() == 0){
-            this.genotype = new Genotype(genes);
-        } else {
-            this.genotype = new GenotypeSlightCorrection(genes);
-        }
+        this.genotype = new Genotype(genes);
     }
 
     public void consumeGrass() {
@@ -162,12 +157,31 @@ public class Animal implements WorldElement {
     }
 
     public Animal procreate(Animal animal2) {
-        this.setEnergy(this.getEnergy() - map.getEnergyUsedToProcreate());
-        animal2.setEnergy(animal2.getEnergy() - map.getEnergyUsedToProcreate());
+        int split = ((animal2.getEnergy()+this.energy)/this.energy)*map.getGenotypeLength();
+        List<Integer> tmpGenes;
+        Genotype newGenotype;
 
-        Animal descendant = new Animal(this.getPosition(), 2 * map.getEnergyUsedToProcreate(), genotype, map);
+        if(Math.random() > 0.5){
+            tmpGenes = this.getGenotype().genesList.subList(0, split);
+            tmpGenes.addAll(animal2.getGenotype().genesList.subList(split, map.getGenotypeLength()));
+        } else {
+            tmpGenes = animal2.getGenotype().genesList.subList(0, map.getGenotypeLength()-split);
+            tmpGenes.addAll(this.getGenotype().genesList.subList(map.getGenotypeLength()-split, map.getGenotypeLength()));
+        }
+
+        if(map.getMutationType() == 0){
+            newGenotype = new Genotype(tmpGenes);
+        } else {
+            newGenotype = new Genotype(tmpGenes);
+        }
+
+        newGenotype.mutate();
+
+        Animal descendant = new Animal(this.getPosition(), 2 * map.getEnergyUsedToProcreate(), newGenotype, map);
         this.children.add(descendant);
         animal2.children.add(descendant);
+        this.setEnergy(this.getEnergy() - map.getEnergyUsedToProcreate());
+        animal2.setEnergy(animal2.getEnergy() - map.getEnergyUsedToProcreate());
         return descendant;
     }
     public Node getShape(double width, double height) {

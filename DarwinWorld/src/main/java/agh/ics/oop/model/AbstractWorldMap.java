@@ -36,6 +36,10 @@ public abstract class AbstractWorldMap implements WorldMap {
         return day;
     }
 
+    public int getGenotypeLength() {
+        return genotypeLength;
+    }
+
     public int getMutationType() {
         return mutationType;
     }
@@ -212,14 +216,20 @@ public abstract class AbstractWorldMap implements WorldMap {
                 Animal animal1 = sortedAnimals.getFirst();
                 Animal animal2 = sortedAnimals.get(1);
                 if (animal1.canProcreate() && animal2.canProcreate()) {
-                    Animal newAnimal = animal1.procreate(animal2);
+                    Animal newAnimal;
+                    if(animal1.getEnergy() >= animal2.getEnergy()){
+                        newAnimal = animal1.procreate(animal2);
+                    } else {
+                        newAnimal = animal2.procreate(animal1);
+                    }
+
                     animalsToAdd.add(newAnimal);
                 }
             }
         }
         if (!animalsToAdd.isEmpty()) {
             for (Animal animal : animalsToAdd) {
-            animals.addAnimal(animal);
+                animals.addAnimal(animal);
             }
         }
     }

@@ -84,9 +84,9 @@ public class MenuPresenter {
 
 
         if(mapType == 0){
-            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate,grassEnergy, minNumberOfMutations, maxNumberOfMutations, genotypeLength, initEnergy);
+            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate,grassEnergy, minNumberOfMutations, maxNumberOfMutations, genotypeLength, initEnergy, mutationType);
         } else if (mapType == 1){
-            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate, genotypeLength, minNumberOfMutations, maxNumberOfMutations, genotypeLength, initEnergy);
+            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate, genotypeLength, minNumberOfMutations, maxNumberOfMutations, genotypeLength, initEnergy, mutationType);
         }
 
         saveToCSV = saveToCSVCheckbox.isSelected();
