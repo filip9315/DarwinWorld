@@ -50,6 +50,21 @@ public class WaterMap extends AbstractWorldMap {
 
     }
 
+    public ArrayList<Vector2d> calculateObstaclesPositions() {
+        ArrayList<Vector2d> obstaclePositions = new ArrayList<>();
+        obstaclePositions.addAll(grasses.keySet());
+        obstaclePositions.addAll(waters.keySet());
+        return obstaclePositions;
+    }
+
+    @Override
+    void placeGrass(int n){
+        RandomPositionsGenerator randomPositionsGenerator = new RandomPositionsGenerator(width, height, n);
+        for(Vector2d grassPosition : randomPositionsGenerator) {
+            grasses.put(grassPosition, new Grass(grassPosition));
+        }
+    }
+
     public void changeSizeOfLakes(){
         int flow = (int)(Math.random() * 3);
         waters.clear();

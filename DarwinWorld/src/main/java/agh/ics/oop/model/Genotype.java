@@ -36,6 +36,10 @@ public class Genotype {
         return genesList.get(currentGeneIndex);
     }
 
+    public int getActiveGene() {
+        return genesList.get((activeGeneIndex + 1) % numOfGenes);
+    }
+
     public Genotype(Animal animal1, Animal animal2){
         numOfGenes = animal1.getGenotype().getGenesList().size();
         List<Integer> newGenesList = new ArrayList<>();
