@@ -54,6 +54,11 @@
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Energy of one grass" />
+                <TextField fx:id="grassEnergyTextField" />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="15">
                 <Label text="Number of grasses growing every day" />
                 <TextField fx:id="growingGrassesTextField" />
             </HBox>

@@ -36,8 +36,8 @@ public class AnimalStatistics {
         genotype = "" + animal.getGenotype();
         activeGene = "" + animal.getActiveGene();
         numberOfEatenGrasses = "" + animal.getNumberOfEatenGrasses();
-//        numberOfChildren = "" + animal.getNumOfChildren();
-//        numberOfDescendants = "" + animal.getNumberOfDescendants();
+        numberOfChildren = "" + animal.getNumOfChildren();
+        numberOfDescendants = "" + animal.getNumberOfDescendants();
 //
         if(animal.isAlive()){
             age = "" + animal.getAge();
@@ -48,9 +48,9 @@ public class AnimalStatistics {
         }
 //
         rowData.add(new RowData("Genotype", genotype));
-        rowData.add(new RowData("Active", activeGene));
+        rowData.add(new RowData("Active gene", activeGene));
         rowData.add(new RowData("Number of eaten grasses", numberOfEatenGrasses));
-//        rowData.add(new RowData("Number of children", numberOfChildren));
-//        rowData.add(new RowData("Number of descendants", numberOfDescendants));
+        rowData.add(new RowData("Number of children", numberOfChildren));
+        rowData.add(new RowData("Number of descendants", numberOfDescendants));
     }
 }

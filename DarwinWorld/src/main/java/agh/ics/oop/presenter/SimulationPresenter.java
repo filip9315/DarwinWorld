@@ -81,6 +81,7 @@ public class SimulationPresenter implements MapChangeListener {
                     emptyCircle.setStroke(Color.RED);
                     emptyCircle.setFill(Color.TRANSPARENT);
                     emptyCircle.setStrokeWidth(2);
+                    emptyCircle.setMouseTransparent(true);
                     mapGrid.add(emptyCircle, x, y, 1, 1);
                     GridPane.setHalignment(emptyCircle, HPos.CENTER);
                     circles.add(emptyCircle);
@@ -172,13 +173,12 @@ public class SimulationPresenter implements MapChangeListener {
 
         map.getElements().stream()
                 .filter(Objects::nonNull)
+                .filter(worldElement -> !(worldElement instanceof Animal))
                 .forEach(this::drawWorldElement);
 
         map.getElements().stream()
-                .filter(worldElement -> worldElement instanceof Grass)
-                .filter(worldElement -> !(map.objectAt(worldElement.getPosition()) instanceof Animal))
+                .filter(worldElement -> worldElement instanceof Animal)
                 .forEach(this::drawWorldElement);
-
 
 
     }

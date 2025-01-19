@@ -168,7 +168,7 @@ public class Animal implements WorldElement {
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);
-        circle.setFill(Color.BROWN);
+        circle.setFill(Color.hsb(27, 0.76, (double) Math.min((double) map.getProcreationEnergy()/energy, 1.0)));
         return circle;
     }
     public AnimalStatistics getStatistics() {

@@ -7,8 +7,8 @@ import java.util.List;
 public class World {
 
     public static void main(String[] args) {
-        Globe globe = new Globe(10, 10, 3, 2);
-        WaterMap waterMap = new WaterMap(10, 10, 2, 3, 2);
+        Globe globe = new Globe(10, 10, 3, 2, 2, 3);
+        WaterMap waterMap = new WaterMap(10, 10, 2, 3, 2, 2, 3);
 
 
 

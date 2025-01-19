@@ -20,6 +20,7 @@ public class MenuPresenter {
     public RadioButton globeRadioButton;
     public RadioButton waterMapRadioButton;
     public TextField numberOfGrassesTextField;
+    public TextField grassEnergyTextField;
     public TextField numberOfAnimalsTextField;
     public TextField initEnergyTextField;
     public TextField genotypeLengthTextField;
@@ -34,6 +35,7 @@ public class MenuPresenter {
     public RadioButton randomMutationButton;
     public RadioButton slightCorrectionMutationButton;
     public CheckBox saveToCSVCheckbox;
+
     @FXML
     private TextField widthTextField;
     @FXML
@@ -45,6 +47,7 @@ public class MenuPresenter {
     int mapHeight;
     int mapType;
     int numberOfGrasses;
+    int grassEnergy;
     int grassGrowingSpeed;
     int numberOfAnimals;
     int initEnergy;
@@ -69,6 +72,7 @@ public class MenuPresenter {
         mapWidth = Integer.parseInt(widthTextField.getText());
         mapHeight = Integer.parseInt(heightTextField.getText());
         numberOfGrasses = Integer.parseInt(numberOfGrassesTextField.getText());
+        grassEnergy = Integer.parseInt(grassEnergyTextField.getText());
         grassGrowingSpeed = Integer.parseInt(growingGrassesTextField.getText());
         numberOfAnimals = Integer.parseInt(numberOfAnimalsTextField.getText());
         initEnergy = Integer.parseInt(initEnergyTextField.getText());
@@ -80,9 +84,9 @@ public class MenuPresenter {
 
 
         if(mapType == 0){
-            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed);
+            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed, energyToProcreate, grassEnergy);
         } else if (mapType == 1){
-            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed);
+            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed, energyToProcreate, genotypeLength);
         }
 
         saveToCSV = saveToCSVCheckbox.isSelected();
@@ -139,6 +143,7 @@ public class MenuPresenter {
                 mapHeight = Integer.parseInt(reader.readLine());
                 mapType = Integer.parseInt(reader.readLine());
                 numberOfGrasses = Integer.parseInt(reader.readLine());
+                grassEnergy = Integer.parseInt(reader.readLine());
                 grassGrowingSpeed = Integer.parseInt(reader.readLine());
                 numberOfAnimals = Integer.parseInt(reader.readLine());
                 initEnergy = Integer.parseInt(reader.readLine());
@@ -154,6 +159,7 @@ public class MenuPresenter {
                 widthTextField.setText(String.valueOf(mapWidth));
                 heightTextField.setText(String.valueOf(mapHeight));
                 numberOfGrassesTextField.setText(String.valueOf(numberOfGrasses));
+                grassEnergyTextField.setText(String.valueOf(grassEnergy));
                 growingGrassesTextField.setText(String.valueOf(grassGrowingSpeed));
                 numberOfAnimalsTextField.setText(String.valueOf(numberOfAnimals));
                 initEnergyTextField.setText(String.valueOf(initEnergy));
@@ -207,6 +213,7 @@ public class MenuPresenter {
                 writer.write(mapHeight + "\n");
                 writer.write(mapType + "\n");
                 writer.write(numberOfGrasses + "\n");
+                writer.write(grassEnergy + "\n");
                 writer.write(grassGrowingSpeed + "\n");
                 writer.write(numberOfAnimals + "\n");
                 writer.write(initEnergy + "\n");

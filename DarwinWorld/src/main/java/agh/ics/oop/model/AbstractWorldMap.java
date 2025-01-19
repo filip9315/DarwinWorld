@@ -8,9 +8,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     int width;
     int height;
     int numberOfGrasses;
-    //TODO change this:
-    int grassEnergy = 1;
-    int procreationEnergy = 10;
+    int grassEnergy;
+    int procreationEnergy;
     int grassGrowingSpeed;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -21,6 +20,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     UUID id;
 
     Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
+
+    public int getProcreationEnergy() {
+        return procreationEnergy;
+    }
 
     public int getGrassEnergy() {
         return grassEnergy;

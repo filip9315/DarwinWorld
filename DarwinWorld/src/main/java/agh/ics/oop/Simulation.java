@@ -44,10 +44,6 @@ public class Simulation implements Runnable {
         return day;
     }
 
-    public boolean shouldSave(){
-        return saveToCSV;
-    }
-
 
     public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, int genotypeLength, int simulationLength, boolean saveToCSV) {
         this.numberOfAnimals = numberOfAnimals;
@@ -99,7 +95,6 @@ public class Simulation implements Runnable {
             map.accept(visitor);
             map.updateWorldMap();
             map.getStatistics().updateStatistics();
-//            System.out.println(map);
             if(saveToCSV) {
                 try {
                     map.getStatistics().save(nameFile);

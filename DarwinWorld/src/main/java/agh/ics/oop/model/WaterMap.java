@@ -8,12 +8,14 @@ public class WaterMap extends AbstractWorldMap {
     Map<Vector2d, Tile> waters = new HashMap<>();
     int numberOfLakes;
 
-    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed) {
+    public WaterMap(int width, int height, int numberOfLakes, int numberOfGrasses, int grassGrowingSpeed, int procreationEnergy, int grassEnergy) {
         this.width = width;
         this.height = height;
         this.numberOfGrasses = numberOfGrasses;
         this.numberOfLakes = numberOfLakes;
         this.grassGrowingSpeed = grassGrowingSpeed;
+        this.procreationEnergy = procreationEnergy;
+        this.grassEnergy = grassEnergy;
 
         for (int i = 0; i < numberOfLakes; i++) {
             Vector2d center;
@@ -27,7 +29,6 @@ public class WaterMap extends AbstractWorldMap {
             lakes.add(lake);
             waters.putAll(lake.getWaters());
         }
-//        placeGrass(numberOfGrasses);
         growGrass(numberOfGrasses);
     }
 

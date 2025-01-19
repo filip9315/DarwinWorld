@@ -4,13 +4,15 @@ import java.util.UUID;
 
 public class Globe extends AbstractWorldMap {
 
-    public Globe(int width, int height, int numberOfGrasses, int grassGrowingSpeeed) {
+    public Globe(int width, int height, int numberOfGrasses, int grassGrowingSpeed, int procreationEnergy, int grassEnergy) {
         this.width = width;
         this.height = height;
         this.id = UUID.randomUUID();
         this.numberOfGrasses = numberOfGrasses;
         growGrass(numberOfGrasses);
-        this.grassGrowingSpeed = grassGrowingSpeeed;
+        this.grassGrowingSpeed = grassGrowingSpeed;
+        this.procreationEnergy = procreationEnergy;
+        this.grassEnergy = grassEnergy;
     }
 
     @Override
