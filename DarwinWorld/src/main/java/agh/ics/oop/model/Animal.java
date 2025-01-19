@@ -95,11 +95,6 @@ public class Animal implements WorldElement {
         this.direction = direction;
     }
 
-    public void setNumberOfEatenGrasses(int numOfEatenGrasses) {
-        this.numberOfEatenGrasses = numOfEatenGrasses;
-    }
-
-
     public Animal(Vector2d position, int energy, Genotype genotype, WorldMap map) {
         this.direction = MapDirection.NORTH;
         this.position = position;
@@ -130,7 +125,7 @@ public class Animal implements WorldElement {
     }
 
     public boolean canProcreate(){
-        return this.energy >= map.getProcretionEnergy();
+        return this.energy >= map.getEnergyToBeAbleToProcreate();
     }
 
     public String toString() {
@@ -162,10 +157,10 @@ public class Animal implements WorldElement {
     }
 
     public Animal procreate(Animal animal2) {
-        this.setEnergy(this.getEnergy() - map.getProcretionEnergy());
-        animal2.setEnergy(animal2.getEnergy() - map.getProcretionEnergy());
+        this.setEnergy(this.getEnergy() - map.getEnergyUsedToProcreate());
+        animal2.setEnergy(animal2.getEnergy() - map.getEnergyUsedToProcreate());
 
-        Animal descendant = new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
+        Animal descendant = new Animal(this.getPosition(), 2 * map.getEnergyUsedToProcreate(), genotype, map);
         this.children.add(descendant);
         animal2.children.add(descendant);
         return descendant;
