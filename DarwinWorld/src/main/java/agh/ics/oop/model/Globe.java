@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Globe extends AbstractWorldMap {
 
-    public Globe(int width, int height, int numberOfGrasses, int grassGrowingSpeed, int energyUsedToProcreate,int energyToBeAbleToProcreate, int grassEnergy) {
+    public Globe(int width, int height, int numberOfGrasses, int grassGrowingSpeed, int energyUsedToProcreate,int energyToBeAbleToProcreate, int grassEnergy, int minMutations, int maxMutations, int genotypeLength, int initialEnergy) {
         this.width = width;
         this.height = height;
         this.id = UUID.randomUUID();
@@ -14,6 +14,10 @@ public class Globe extends AbstractWorldMap {
         this.energyUsedToProcreate = energyUsedToProcreate;
         this.energyToBeAbleToProcreate = energyToBeAbleToProcreate;
         this.grassEnergy = grassEnergy;
+        this.minMutations = minMutations;
+        this.maxMutations = maxMutations;
+        this.genotypeLength = genotypeLength;
+        this.initialEnergy = initialEnergy;
     }
 
     @Override

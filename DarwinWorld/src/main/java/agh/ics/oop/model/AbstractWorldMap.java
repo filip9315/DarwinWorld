@@ -12,6 +12,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     int energyUsedToProcreate;
     int energyToBeAbleToProcreate;
     int grassGrowingSpeed;
+    int minMutations;
+    int maxMutations;
+    int genotypeLength;
+    int initialEnergy;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
     ArrayList<Animal> deadAnimals = new ArrayList<>();
