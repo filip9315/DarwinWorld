@@ -28,6 +28,10 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     Map<Vector2d, Boolean> emptyTiles = new HashMap<>();
 
+    public int getGenotypeLength() {
+        return genotypeLength;
+    }
+
     public int getEnergyToBeAbleToProcreate() {
         return energyToBeAbleToProcreate;
     }
