@@ -45,27 +45,44 @@ public class Animal implements WorldElement {
         return children.size();
     }
 
+//    public int getNumberOfDescendants() {
+//        Set<Integer> visited = new HashSet<>();
+//        int numOfDescendants = 0;
+//        for (Animal animal : children) {
+//            if (!visited.contains(animal.ID)) {
+//                visited.add(animal.ID);
+//                numOfDescendants++;
+//            }
+//        }
+//        for (Animal child : children) {
+//            numOfDescendants += child.getNumberOfDescendants(visited, numOfDescendants);
+//        }
+//        return numOfDescendants;
+//    }
+//
+//    public int getNumberOfDescendants(Set<Integer> visited, int numOfDescendants) {
+//        for (Animal child : children) {
+//            if (!visited.contains(child.ID)) {
+//                visited.add(child.ID);
+//                numOfDescendants++;
+//                numOfDescendants += child.getNumberOfDescendants();
+//            }
+//        }
+//        return numOfDescendants;
+//    }
     public int getNumberOfDescendants() {
         Set<Integer> visited = new HashSet<>();
-        int numOfDescendants = 0;
-        for (Animal animal : children) {
-            if (!visited.contains(animal.ID)) {
-                visited.add(animal.ID);
-                numOfDescendants++;
-            }
-        }
-        for (Animal child : children) {
-            numOfDescendants += child.getNumberOfDescendants(visited, numOfDescendants);
-        }
-        return numOfDescendants;
+        return getNumberOfDescendants(visited);
     }
 
-    public int getNumberOfDescendants(Set<Integer> visited, int numOfDescendants) {
+    private int getNumberOfDescendants(Set<Integer> visited) {
+        int numOfDescendants = 0;
+
         for (Animal child : children) {
             if (!visited.contains(child.ID)) {
                 visited.add(child.ID);
                 numOfDescendants++;
-                numOfDescendants += child.getNumberOfDescendants();
+                numOfDescendants += child.getNumberOfDescendants(visited);
             }
         }
         return numOfDescendants;

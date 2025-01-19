@@ -64,4 +64,5 @@ public interface WorldMap extends MoveValidator {
     List<Animal> getDeadAnimals();
     int getMutationType();
     int getEnergyToBeAbleToProcreate();
+    int getGenotypeLength();
 }
