@@ -2,7 +2,6 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.IncorrectPositionException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,5 +58,5 @@ public interface WorldMap extends MoveValidator {
     void updateWorldMap();
     int getMapWidth();
     int getMapHeight();
-    Statistics getStatistics();
+    SimulationStatistics getStatistics();
 }

@@ -12,9 +12,31 @@ public class Simulation implements Runnable {
     int numberOfAnimals;
     int simulationLength;
     int genotypeLength;
+    int day;
 
     WorldMap map;
     Visitor visitor = new MapActionVisitor();
+
+
+    private volatile boolean isPaused = false;
+
+    public synchronized void pause() {
+        if (!isPaused) {
+            isPaused = true;
+        } else {
+            isPaused = false;
+            notify();
+        }
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public int getDay(){
+        return day;
+    }
+
 
     public Simulation(int numberOfAnimals, WorldMap map, int initEnergy, int genotypeLength, int simulationLength) {
         this.numberOfAnimals = numberOfAnimals;
@@ -23,12 +45,8 @@ public class Simulation implements Runnable {
         this.genotypeLength = genotypeLength;
         generatePositions(numberOfAnimals);
 
-        //TODO usunąć to (konstruktor animala się zmienił):
-        List<Integer> genesList = List.of(1, 2, 3, 4, 5, 6, 7, 2, 0, 1);
-        Genotype genotype = new Genotype(genesList);
-
         for (Vector2d position : positions) {
-            Animal tmp = new Animal(position, initEnergy, genotype, map);
+            Animal tmp = new Animal(position, initEnergy, genotypeLength, map);
             try {
                 map.place(tmp);
             } catch(IncorrectPositionException e) {
@@ -52,15 +70,29 @@ public class Simulation implements Runnable {
 
     public void run(){
         System.out.println(map);
+        day = 0;
 
         for (int i=0; i < simulationLength; i++) {
+
+            synchronized (this) {
+                while (isPaused) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
             for (Animal animal : map.getAnimals()) {
                 map.move(animal);
+                animal.getStatistics().updateStatistics();
             }
             map.accept(visitor);
             map.updateWorldMap();
             map.getStatistics().updateStatistics();
             System.out.println(map);
+            day++;
             try {
                 Thread.sleep(400);
             } catch (InterruptedException e) {

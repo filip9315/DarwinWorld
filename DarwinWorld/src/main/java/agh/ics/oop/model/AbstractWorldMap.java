@@ -12,7 +12,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     int procreationEnergy = 10;
     AnimalsHashMap animals = new AnimalsHashMap();
     Map<Vector2d, Grass> grasses = new HashMap<>();
-    Statistics statistics = new Statistics(this);
+    SimulationStatistics statistics = new SimulationStatistics(this);
 
     List<Animal> animalList = new ArrayList<>();
     List<MapChangeListener> mapChangeListeners= new ArrayList<>();
@@ -214,5 +214,5 @@ public abstract class AbstractWorldMap implements WorldMap {
     public int getMapHeight() {
         return height;
     }
-    public Statistics getStatistics() {return statistics;}
+    public SimulationStatistics getStatistics() {return statistics;}
 }

@@ -6,24 +6,24 @@
 <BorderPane minHeight="800.0" minWidth="900.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.ics.oop.presenter.SimulationPresenter">
     <right>
         <VBox alignment="CENTER">
-            <Label fx:id="infoLabel" />
+            <Label fx:id="dayLabel" />
             <GridPane fx:id="mapGrid" alignment="CENTER" gridLinesVisible="true" VBox.vgrow="ALWAYS" />
-         <Button mnemonicParsing="false" text="Pause" onAction="#pause"/>
+         <Button mnemonicParsing="false" text="Pause" onAction="#pause" fx:id="pauseButton"/>
         </VBox>
     </right>
 
     <left>
         <VBox spacing="10" alignment="CENTER">
             <Label text="Simulation Data" />
-            <TableView fx:id="simulationStatsTable" prefWidth="300">
+            <TableView fx:id="simulationStatsTable" prefWidth="300" prefHeight="300">
                 <columns>
-                    <TableColumn fx:id="column1" text="Column 1" prefWidth="150" />
-                    <TableColumn fx:id="column2" text="Column 2" prefWidth="150" />
+                    <TableColumn fx:id="column1" prefWidth="150"/>
+                    <TableColumn fx:id="column2" prefWidth="150"/>
                 </columns>
             </TableView>
-
-            <Label text="Simulation Data" />
-            <TableView fx:id="animalStatsTable" prefWidth="300">
+            <Separator prefHeight="15.0" prefWidth="300"/>
+            <Label text="Animal Data" />
+            <TableView fx:id="animalStatsTable" prefWidth="300" prefHeight="300">
                 <columns>
                     <TableColumn fx:id="animalStatsColumn1" text="Column 1" prefWidth="150" />
                     <TableColumn fx:id="animalStatsColumn2" text="Column 2" prefWidth="150" />

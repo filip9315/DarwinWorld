@@ -1,11 +1,8 @@
 package agh.ics.oop.presenter;
 
-import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
-import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
@@ -14,65 +11,74 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-import java.text.ParsePosition;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class SimulationPresenter implements MapChangeListener {
 
-    public TableColumn column1;
-    public TableColumn column2;
-    public TableView simulationStatsTable;
-    public TableView animalStatsTable;
+    public TableColumn<RowData, String> column1;
+    public TableColumn<RowData, String> column2;
+    public TableView<RowData> simulationStatsTable;
+    public TableView<RowData> animalStatsTable;
+    public Button pauseButton;
+    public Label dayLabel;
+    public GridPane mapGrid;
+    public TableColumn<RowData, String> animalStatsColumn1;
+    public TableColumn<RowData, String> animalStatsColumn2;
+
     WorldMap map;
+    Simulation simulation;
+    Animal followedAnimal;
     double tileWidth = 0;
     double tileHeight = 0;
 
     String message;
-
-    @FXML
-    private Label infoLabel;
-    @FXML
-    private TextField textField;
-    @FXML
-    private Button startButton;
-    @FXML
-    private GridPane mapGrid;
 
 
     @FXML
     public void initialize() {
         column1.setCellValueFactory(new PropertyValueFactory<>("column1"));
         column2.setCellValueFactory(new PropertyValueFactory<>("column2"));
+        animalStatsColumn1.setCellValueFactory(new PropertyValueFactory<>("column1"));
+        animalStatsColumn2.setCellValueFactory(new PropertyValueFactory<>("column2"));
     }
 
 
     public void pause(){
-
+        simulation.pause();
+        if(simulation.isPaused()){
+            pauseButton.setText("Resume");
+        } else {
+            pauseButton.setText("Pause");
+        }
     }
 
 
     //=========
     //==Tables==
     //==========
-    void drawSimulationStats(){
+    void drawStats(){
         simulationStatsTable.getItems().clear();
+        animalStatsTable.getItems().clear();
+
         for (int i = 0; i < 7; i++) {
             simulationStatsTable.getItems().add(map.getStatistics().getRow(i));
         }
+
+        if(followedAnimal != null){
+            animalStatsTable.getItems().clear();
+            for (int i = 0; i < 7; i++) {
+                animalStatsTable.getItems().add(followedAnimal.getStatistics().getRow(i));
+            }
+        }
+
+        dayLabel.setText("Day: " + simulation.getDay());
     }
+
 
     //===========
     //=== Map ===
     //===========
-    public void setMap(WorldMap map) {
-        this.map = map;
-    }
-
     public void drawMap(){
         clearGrid();
 
@@ -115,6 +121,13 @@ public class SimulationPresenter implements MapChangeListener {
         Node shape = element.getShape(tileWidth, tileHeight);
         mapGrid.add(shape, x, y, 1, 1);
         GridPane.setHalignment(shape, HPos.CENTER);
+
+        shape.setOnMouseClicked(event -> {
+            if(element instanceof Animal && simulation.isPaused()){
+                followedAnimal = (Animal) element;
+                drawStats();
+            }
+        });
     }
 
     private void clearGrid() {
@@ -127,13 +140,15 @@ public class SimulationPresenter implements MapChangeListener {
     @Override
     public void mapChanged(WorldMap worldMap, String message) {
         Platform.runLater(this::drawMap);
-        Platform.runLater(this::drawSimulationStats);
+        Platform.runLater(this::drawStats);
+
         this.message = message;
     }
 
     public void setSimulation(Simulation simulation) {
-        WorldMap map = simulation.getMap();
-        setMap(map);
+        this.map = simulation.getMap();
+        this.simulation = simulation;
         map.registerMapChangeListener(this);
     }
+
 }

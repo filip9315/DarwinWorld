@@ -18,6 +18,7 @@ public class Animal implements WorldElement {
     int numOfChildren;
     Genotype genotype;
     WorldMap map;
+    AnimalStatistics animalStatistics= new AnimalStatistics(this);
 
     public Vector2d getPosition() {
         return position;
@@ -119,6 +120,8 @@ public class Animal implements WorldElement {
         circle.setFill(Color.BROWN);
         return circle;
     }
-
+    public AnimalStatistics getStatistics() {
+        return animalStatistics;
+    }
 
 }

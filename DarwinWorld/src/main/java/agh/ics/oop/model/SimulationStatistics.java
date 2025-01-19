@@ -1,8 +1,10 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.presenter.SimulationPresenter;
+
 import java.util.*;
 
-public class Statistics {
+public class SimulationStatistics {
 
     String numberOfAnimals;
     String numberOfGrasses;
@@ -13,24 +15,21 @@ public class Statistics {
     String averageNumberOfChildren;
 
     WorldMap map;
-    List<String> labels = new ArrayList<>();
-    List<String> data = new ArrayList<>();
+    List<RowData> rowData = new ArrayList<>();
 
-    public Statistics(WorldMap map) {
+    public SimulationStatistics(WorldMap map) {
         this.map = map;
     }
 
     public RowData getRow(int i){
-
-        if(i < labels.size() && i < data.size()){
-            return new RowData(labels.get(i), data.get(i));
+        if(i < rowData.size()){
+            return rowData.get(i);
         }
         return new RowData("No data", "No data");
     }
 
     public void updateStatistics() {
-        labels.clear();
-        data.clear();
+        rowData.clear();
 
         numberOfAnimals = "" + map.getAnimals().size();
         numberOfGrasses = "" + map.getElements().stream().filter(worldElement -> worldElement instanceof Grass).count();
@@ -40,22 +39,16 @@ public class Statistics {
         averageLifetime = getAverageLifetime();
         averageNumberOfChildren = "Todo";
 
-        labels.add("numberOfAnimals");
-        labels.add("numberOfGrasses");
-        labels.add("numberOfEmptyTiles");
-        labels.add("mostCommonGenotype");
-        labels.add("averageEnergy");
-        labels.add("averageLifetime");
-        labels.add("averageNumberOfChildren");
+        rowData.add(new RowData("Number of animals", numberOfAnimals));
+        rowData.add(new RowData("Number of grasses", numberOfGrasses));
+        rowData.add(new RowData("Number of empty tiles", numberOfEmptyTiles));
+        rowData.add(new RowData("Most common genotype", mostCommonGenotype));
+        rowData.add(new RowData("Average energy", averageEnergy));
+        rowData.add(new RowData("Average lifetime", averageLifetime));
+        rowData.add(new RowData("Average number of children", averageNumberOfChildren));
 
-        data.add(numberOfAnimals);
-        data.add(numberOfGrasses);
-        data.add(numberOfEmptyTiles);
-        data.add(mostCommonGenotype);
-        data.add(averageEnergy);
-        data.add(averageLifetime);
-        data.add(averageNumberOfChildren);
     }
+
 
     String getMostCommonGenotype() {
         Map<Genotype, Integer> genotypes = new HashMap<>();
@@ -93,25 +86,6 @@ public class Statistics {
             sum += animal.getAge();
         }
         return String.format("%.2f", sum / map.getAnimals().size());
-    }
-
-
-    public static class RowData {
-        private final String column1;
-        private final String column2;
-
-        public RowData(String column1, String column2) {
-            this.column1 = column1;
-            this.column2 = column2;
-        }
-
-        public String getColumn1() {
-            return column1;
-        }
-
-        public String getColumn2() {
-            return column2;
-        }
     }
 }
 
