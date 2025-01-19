@@ -37,7 +37,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void place(Animal animal) throws IncorrectPositionException {
         Vector2d animalPosition = animal.getPosition();
         if (canMoveTo(animal.getPosition())) {
-//            animals.put(animalPosition, animal);
             animals.addAnimal(animal);
             mapChanged("Animal placed on " + animalPosition);
         }else{
