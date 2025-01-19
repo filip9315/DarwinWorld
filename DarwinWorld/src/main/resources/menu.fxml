@@ -82,8 +82,8 @@
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="15">
-                <Label text="Max amount of energy" />
-                <TextField fx:id="maxAmountOfEnergyTextField" />
+                <Label text="Amount of energy to be able to procreate" />
+                <TextField fx:id="energyToBeAbleToProcreateTextField"/>
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="15">

@@ -14,7 +14,6 @@ public class Animal implements WorldElement {
     private Vector2d position;
     int energy;
     int age = 0;
-    int numOfChildren;
     ArrayList<Animal> children = new ArrayList<>();
     int numberOfEatenGrasses = 0;
     int dayOfDeath = -1;
@@ -100,9 +99,6 @@ public class Animal implements WorldElement {
         this.numberOfEatenGrasses = numOfEatenGrasses;
     }
 
-    public void setNumberOfChildren(int numOfChildren) {
-        this.numOfChildren = numOfChildren;
-    }
 
     public Animal(Vector2d position, int energy, Genotype genotype, WorldMap map) {
         this.direction = MapDirection.NORTH;
@@ -168,8 +164,6 @@ public class Animal implements WorldElement {
     public Animal procreate(Animal animal2) {
         this.setEnergy(this.getEnergy() - map.getProcretionEnergy());
         animal2.setEnergy(animal2.getEnergy() - map.getProcretionEnergy());
-        this.setNumberOfChildren(this.getNumOfChildren() + 1);
-        animal2.setNumberOfChildren(animal2.getNumOfChildren() + 1);
 
         Animal descendant = new Animal(this.getPosition(), 2 * map.getProcretionEnergy(), genotype, map);
         this.children.add(descendant);
@@ -179,7 +173,7 @@ public class Animal implements WorldElement {
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);
-        circle.setFill(Color.hsb(27, 0.76, (double) Math.min((double) map.getProcreationEnergy()/energy, 1.0)));
+        circle.setFill(Color.hsb(27, 0.76, (double) Math.min((double) map.getEnergyUsedToProcreate()/energy, 1.0)));
         return circle;
     }
     public AnimalStatistics getStatistics() {

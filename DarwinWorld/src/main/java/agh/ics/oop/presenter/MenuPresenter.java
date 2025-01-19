@@ -28,7 +28,7 @@ public class MenuPresenter {
     public Button saveSimulationButton;
     public Button startSimulationButton;
     public TextField growingGrassesTextField;
-    public TextField maxAmountOfEnergyTextField;
+    public TextField energyToBeAbleToProcreateTextField;
     public TextField energyToProcreateTextField;
     public TextField minNumberOfMutationsTextField;
     public TextField maxNumberOfMutationsTextField;
@@ -51,7 +51,7 @@ public class MenuPresenter {
     int grassGrowingSpeed;
     int numberOfAnimals;
     int initEnergy;
-    int maxAmountOfEnergy;
+    int energyToBeAbleToProcreate;
     int energyToProcreate;
     int minNumberOfMutations;
     int maxNumberOfMutations;
@@ -76,7 +76,7 @@ public class MenuPresenter {
         grassGrowingSpeed = Integer.parseInt(growingGrassesTextField.getText());
         numberOfAnimals = Integer.parseInt(numberOfAnimalsTextField.getText());
         initEnergy = Integer.parseInt(initEnergyTextField.getText());
-        maxAmountOfEnergy = Integer.parseInt(maxAmountOfEnergyTextField.getText());
+        energyToBeAbleToProcreate = Integer.parseInt(energyToBeAbleToProcreateTextField.getText());
         energyToProcreate = Integer.parseInt(energyToProcreateTextField.getText());
         minNumberOfMutations = Integer.parseInt(minNumberOfMutationsTextField.getText());
         maxNumberOfMutations = Integer.parseInt(maxNumberOfMutationsTextField.getText());
@@ -84,9 +84,9 @@ public class MenuPresenter {
 
 
         if(mapType == 0){
-            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed, energyToProcreate, grassEnergy);
+            map = new Globe(mapWidth, mapHeight, numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate,grassEnergy);
         } else if (mapType == 1){
-            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed, energyToProcreate, genotypeLength);
+            map = new WaterMap(mapWidth, mapHeight, 1+((int) (Math.random()*2)), numberOfGrasses, grassGrowingSpeed, energyToProcreate, energyToBeAbleToProcreate, genotypeLength);
         }
 
         saveToCSV = saveToCSVCheckbox.isSelected();
@@ -147,7 +147,7 @@ public class MenuPresenter {
                 grassGrowingSpeed = Integer.parseInt(reader.readLine());
                 numberOfAnimals = Integer.parseInt(reader.readLine());
                 initEnergy = Integer.parseInt(reader.readLine());
-                maxAmountOfEnergy = Integer.parseInt(reader.readLine());
+                energyToBeAbleToProcreate = Integer.parseInt(reader.readLine());
                 energyToProcreate = Integer.parseInt(reader.readLine());
                 minNumberOfMutations = Integer.parseInt(reader.readLine());
                 maxNumberOfMutations = Integer.parseInt(reader.readLine());
@@ -163,7 +163,7 @@ public class MenuPresenter {
                 growingGrassesTextField.setText(String.valueOf(grassGrowingSpeed));
                 numberOfAnimalsTextField.setText(String.valueOf(numberOfAnimals));
                 initEnergyTextField.setText(String.valueOf(initEnergy));
-                maxAmountOfEnergyTextField.setText(String.valueOf(maxAmountOfEnergy));
+                energyToBeAbleToProcreateTextField.setText(String.valueOf(energyToBeAbleToProcreate));
                 energyToProcreateTextField.setText(String.valueOf(energyToProcreate));
                 minNumberOfMutationsTextField.setText(String.valueOf(minNumberOfMutations));
                 maxNumberOfMutationsTextField.setText(String.valueOf(maxNumberOfMutations));
@@ -217,7 +217,7 @@ public class MenuPresenter {
                 writer.write(grassGrowingSpeed + "\n");
                 writer.write(numberOfAnimals + "\n");
                 writer.write(initEnergy + "\n");
-                writer.write(maxAmountOfEnergy + "\n");
+                writer.write(energyToBeAbleToProcreate + "\n");
                 writer.write(energyToProcreate + "\n");
                 writer.write(minNumberOfMutations + "\n");
                 writer.write(maxNumberOfMutations + "\n");
