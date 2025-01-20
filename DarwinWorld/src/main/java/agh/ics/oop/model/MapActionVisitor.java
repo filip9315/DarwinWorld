@@ -4,7 +4,7 @@ public class MapActionVisitor implements Visitor {
 
     @Override
     public void visit(Globe globe) {
-        System.out.println("This map doesn't support actions");
+        //System.out.println("This map doesn't support actions");
     }
 
     @Override

@@ -65,4 +65,6 @@ public interface WorldMap extends MoveValidator {
     int getMutationType();
     int getEnergyToBeAbleToProcreate();
     int getGenotypeLength();
+    int getMinGenesToMutate();
+    int getMaxGenesToMutate();
 }

@@ -36,6 +36,14 @@ public abstract class AbstractWorldMap implements WorldMap {
         return energyToBeAbleToProcreate;
     }
 
+    public int getMinGenesToMutate(){
+        return minMutations;
+    }
+
+    public int getMaxGenesToMutate(){
+        return maxMutations;
+    }
+
     public int getDay() {
         return day;
     }
@@ -81,6 +89,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         MapDirection newAnimalDirection = animal.getDirection().rotate(animal.useActiveGene());
         animal.setDirection(newAnimalDirection);
         Vector2d newPosition = animal.getPosition().add(animal.getDirection().toUnitVector());
+
         return newPosition;
     }
 
@@ -91,7 +100,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void move(Animal animal) {
         Vector2d newPosition = newAnimalPosition(animal);
         newPosition = normaliseNewPosition(newPosition);
-
         if (this.canMoveTo(newPosition)) {
             animals.removeAnimal(animal);
             animal.move(newPosition);
@@ -99,7 +107,6 @@ public abstract class AbstractWorldMap implements WorldMap {
             animals.addAnimal(animal);
             mapChanged("Animal moved to " + animal.getPosition());
         }
-
     }
 
     public ArrayList<WorldElement> getElements() {
@@ -222,7 +229,6 @@ public abstract class AbstractWorldMap implements WorldMap {
                     } else {
                         newAnimal = animal2.procreate(animal1);
                     }
-
                     animalsToAdd.add(newAnimal);
                 }
             }

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Genotype {
     public int activeGeneIndex = 0;
     public int activeGene;
-    List<Integer> genesList;
+    List<Integer> genesList = new ArrayList<>();
     int numOfGenes;
     int minGenesToMutate = 0;
     int maxGenesToMutate;
@@ -18,7 +18,6 @@ public class Genotype {
         this.activeGene = genesList.getFirst();
         this.minGenesToMutate = 0;
         this.maxGenesToMutate = numOfGenes;
-
     }
 
     public Genotype(List<Integer> genesList, int minGenesToMutate, int maxGenesToMutate) {
@@ -27,17 +26,6 @@ public class Genotype {
         activeGene = genesList.getFirst();
         this.minGenesToMutate = minGenesToMutate;
         this.maxGenesToMutate = maxGenesToMutate;
-    }
-
-    public int useGenotype(){
-        int currentGeneIndex = activeGeneIndex;
-        activeGeneIndex++;
-        activeGeneIndex %= numOfGenes;
-        return genesList.get(currentGeneIndex);
-    }
-
-    public int getActiveGene() {
-        return genesList.get((activeGeneIndex + 1) % numOfGenes);
     }
 
     public Genotype(Animal animal1, Animal animal2){
@@ -54,28 +42,42 @@ public class Genotype {
             newGenesList.addAll(animal2.getGenotype().getGenesList().subList(0, partitionIndex));
             newGenesList.addAll(animal1.getGenotype().getGenesList().subList(partitionIndex, numOfGenes));
         }
-
+        this.genesList = newGenesList;
         this.minGenesToMutate = animal1.getGenotype().minGenesToMutate;
         this.maxGenesToMutate = animal1.getGenotype().maxGenesToMutate;
         this.mutate();
     }
 
+    public int useGenotype(){
+        int currentGeneIndex = activeGeneIndex;
+        activeGeneIndex++;
+        activeGeneIndex %= numOfGenes;
+        return genesList.get(currentGeneIndex);
+    }
 
+    public int getActiveGene() {
+        return genesList.get((activeGeneIndex + 1) % numOfGenes);
+    }
 
-    public void mutate(){
+    public void mutate() {
         Random random = new Random();
         int numOfGenesToMutate = random.nextInt(maxGenesToMutate - minGenesToMutate + 1) + minGenesToMutate;
 
         Set<Integer> genesToMutateSet = new HashSet<>();
-
         while (genesToMutateSet.size() < numOfGenesToMutate) {
-            genesToMutateSet.add(random.nextInt(numOfGenes + 1));
+            genesToMutateSet.add(random.nextInt(genesList.size()-1));
         }
+
+        List<Integer> newGenes = new ArrayList<>(genesList);
 
         for (Integer geneIndex : genesToMutateSet) {
-            int newGene = (int) Math.round(Math.random() * numOfGenes + 1);
-                genesList.set(geneIndex, newGene);
+
+            int newGene = (int) Math.round(Math.random() * numOfGenes);
+            newGenes.set(geneIndex, newGene);
         }
+
+        genesList = newGenes;
+
     }
 
     public boolean equals(Object other){
@@ -96,7 +98,7 @@ public class Genotype {
         return Objects.hash(genesList);
     }
 
-    public String toString(){
+    public synchronized String toString() {
         return genesList.toString();
     }
 

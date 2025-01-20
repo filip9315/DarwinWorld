@@ -7,33 +7,23 @@ import java.util.Set;
 
 public class GenotypeSlightCorrection extends Genotype {
 
-    public GenotypeSlightCorrection(List<Integer> genesList) {
-        super(genesList);
-    }
+    public GenotypeSlightCorrection(List<Integer> genesList, int minGenesToMutate, int maxGenesToMutate) {super(genesList, minGenesToMutate, maxGenesToMutate);}
+    public GenotypeSlightCorrection(Animal animal1, Animal animal2) {super(animal1, animal2);}
+
 
     @Override
     public void mutate() {
         Random random = new Random();
         int numOfGenesToMutate = random.nextInt(maxGenesToMutate - minGenesToMutate + 1) + minGenesToMutate;
-
         Set<Integer> genesToMutateSet = new HashSet<>();
-
         while (genesToMutateSet.size() < numOfGenesToMutate) {
-            genesToMutateSet.add(random.nextInt(numOfGenes + 1));
+            genesToMutateSet.add(random.nextInt(numOfGenes));
         }
-
         for (Integer geneIndex : genesToMutateSet) {
             int correction = Math.random()>0.5 ? -1 : 1;
-                int newGene = (genesList.get(geneIndex)+correction)%8;
-                genesList.set(geneIndex, newGene);
+            int x = genesList.get(geneIndex)+correction;
+            int newGene = (x % 8 + 8) % 8;
+            genesList.set(geneIndex, newGene);
         }
-
-//        for (int i = 0; i < genesList.size(); i++) {
-//            if (Math.random() < 0.5) {
-//                int correction = Math.random()>0.5 ? -1 : 1;
-//                int newGene = (genesList.get(i)+correction)%8;
-//                genesList.set(i, newGene);
-//            }
-//        }
     }
 }

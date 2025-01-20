@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.presenter.SimulationPresenter;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -44,6 +42,7 @@ public class SimulationStatistics {
         averageLifetime = getAverageLifetime();
         averageNumberOfChildren = getAverageNumberOfChildren();
 
+
         rowData.add(new RowData("Number of animals", numberOfAnimals));
         rowData.add(new RowData("Number of grasses", numberOfGrasses));
         rowData.add(new RowData("Number of empty tiles", numberOfEmptyTiles));
@@ -58,10 +57,9 @@ public class SimulationStatistics {
         Map<Genotype, Integer> genotypes = new HashMap<>();
 
         for (Animal animal : map.getAnimals()) {
-            Genotype tmp = animal.genotype;
+            Genotype tmp = animal.getGenotype();
             genotypes.put(tmp, genotypes.getOrDefault(tmp, 0) + 1);
         }
-
         Genotype mostCommonGenotype = null;
         int maxCount = 0;
         for (Map.Entry<Genotype, Integer> entry : genotypes.entrySet()) {

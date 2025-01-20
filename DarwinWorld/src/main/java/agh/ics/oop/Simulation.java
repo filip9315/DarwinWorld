@@ -89,13 +89,13 @@ public class Simulation implements Runnable {
             List<Animal> allAnimals;
             allAnimals = map.getAnimals();
             allAnimals.addAll(map.getDeadAnimals());
-
             for (Animal animal : map.getAnimals()) {
                 map.move(animal);
             }
             for(Animal animal : allAnimals) {
                 animal.getStatistics().updateStatistics();
             }
+
             map.accept(visitor);
             map.updateWorldMap();
             map.getStatistics().updateStatistics();

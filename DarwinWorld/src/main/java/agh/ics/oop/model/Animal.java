@@ -45,31 +45,6 @@ public class Animal implements WorldElement {
         return children.size();
     }
 
-//    public int getNumberOfDescendants() {
-//        Set<Integer> visited = new HashSet<>();
-//        int numOfDescendants = 0;
-//        for (Animal animal : children) {
-//            if (!visited.contains(animal.ID)) {
-//                visited.add(animal.ID);
-//                numOfDescendants++;
-//            }
-//        }
-//        for (Animal child : children) {
-//            numOfDescendants += child.getNumberOfDescendants(visited, numOfDescendants);
-//        }
-//        return numOfDescendants;
-//    }
-//
-//    public int getNumberOfDescendants(Set<Integer> visited, int numOfDescendants) {
-//        for (Animal child : children) {
-//            if (!visited.contains(child.ID)) {
-//                visited.add(child.ID);
-//                numOfDescendants++;
-//                numOfDescendants += child.getNumberOfDescendants();
-//            }
-//        }
-//        return numOfDescendants;
-//    }
     public int getNumberOfDescendants() {
         Set<Integer> visited = new HashSet<>();
         return getNumberOfDescendants(visited);
@@ -133,7 +108,7 @@ public class Animal implements WorldElement {
         this.energy = energy;
         this.map = map;
         this.ID = ID_count++;
-        this.genotype = new Genotype(genes);
+        this.genotype = new Genotype(genes, map.getMinGenesToMutate(), map.getMaxGenesToMutate());
     }
 
     public void consumeGrass() {
@@ -169,38 +144,25 @@ public class Animal implements WorldElement {
         setDayOfDeath(map.getDay());
     }
 
+    public void setGenotype(Genotype genotype) {
+        this.genotype = genotype;
+    }
+
     public void setEnergy(int energy) {
         this.energy = energy;
     }
 
     public Animal procreate(Animal animal2) {
-        int split = ((animal2.getEnergy()+this.energy)/this.energy)*map.getGenotypeLength();
-        List<Integer> tmpGenes;
-        Genotype newGenotype;
-
-        if(Math.random() > 0.5){
-            tmpGenes = this.getGenotype().genesList.subList(0, split);
-            tmpGenes.addAll(animal2.getGenotype().genesList.subList(split, map.getGenotypeLength()));
-        } else {
-            tmpGenes = animal2.getGenotype().genesList.subList(0, map.getGenotypeLength()-split);
-            tmpGenes.addAll(this.getGenotype().genesList.subList(map.getGenotypeLength()-split, map.getGenotypeLength()));
-        }
-
-        if(map.getMutationType() == 0){
-            newGenotype = new Genotype(tmpGenes);
-        } else {
-            newGenotype = new Genotype(tmpGenes);
-        }
-
-        newGenotype.mutate();
+        this.setEnergy(this.getEnergy() - map.getEnergyUsedToProcreate());
+        animal2.setEnergy(animal2.getEnergy() - map.getEnergyUsedToProcreate());
+        Genotype newGenotype = new Genotype(this, animal2);
 
         Animal descendant = new Animal(this.getPosition(), 2 * map.getEnergyUsedToProcreate(), newGenotype, map);
         this.children.add(descendant);
         animal2.children.add(descendant);
-        this.setEnergy(this.getEnergy() - map.getEnergyUsedToProcreate());
-        animal2.setEnergy(animal2.getEnergy() - map.getEnergyUsedToProcreate());
         return descendant;
     }
+
     public Node getShape(double width, double height) {
         double radius = Math.min(width, height)/2;
         Circle circle = new Circle(radius);
